@@ -6,8 +6,17 @@
 .ant-menu.ant-menu-dark .ant-menu-item-selected>.anticon {
     font-size: 28px;
 }
+.ant-layout .ant-layout-content{
+    margin-top: 0;
+}
 
 .ant-menu-inline-collapsed>.ant-menu-item {
     padding: 0 !important;
     text-align: center;
+}
+
+.lon{
+    position: "absolute";
+      top: "40%";
+      right: "5%";
 }
