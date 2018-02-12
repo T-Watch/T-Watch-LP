@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+.levels{
+    background-color: #d9d9d9; 
+}
+
+.container {
+    margin-top: 4%;
+    margin-bottom: 4%;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+    position: relative;
+    left: 0;
+
+}
+.levels-title {
+color: #353535;
+font-family: 'Source Sans Pro', sans-serif;
+margin-top: 2%;
+
+}
+
+.explanation{
+    color: #353535;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-left: 4%;
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import './components.css';
+import './Login.css';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
@@ -15,7 +15,6 @@ class Login extends React.Component{ //cuadro azul
       }
 
 
-    
     
         
     render() {

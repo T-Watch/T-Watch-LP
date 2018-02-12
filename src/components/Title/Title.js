@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col } from 'antd';
-import './components.css';
+import './Title.css';
 
 
 export default class BackgroundImage extends React.Component{ //cuadro azul
@@ -10,13 +10,10 @@ constructor(){
 }
 render(){
    
-    const color = {
-        color: "#FFFFFF"
-    }
     return(
         <div >
-        <h1 className="title">T-Watch</h1>
-        <h2 className="title"> <i> Mucho más que un entrenador personal</i></h2>
+        <h1 className="tit">T-Watch</h1>
+        <h2 className="tit"> <i> Mucho más que un entrenador personal</i></h2>
 
         </div>
     

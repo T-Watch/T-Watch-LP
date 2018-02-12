@@ -2,9 +2,13 @@ import * as React from 'react';
 import { Layout, Row, Col } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 import './App.css';
-import Title from './components/Title.js'
-import BackgroundImage from './components/BackgroundImage.js'
-import Login from './components/Login.js'
+import Title from './components/Title/Title.js'
+import BackgroundImage from './components/BackgroundImage/BackgroundImage.js'
+import Login from './components/Login/Login.js'
+import Levels from './components/Levels/Levels.js'
+import Separator from './components/Separator/Separator.js'
+import WhatIs from './components/WhatIs/WhatIs.js'
+import ContactUs from './components/ContactUs/ContactUs.js'
 
 
 class App extends React.Component {
@@ -35,10 +39,14 @@ class App extends React.Component {
         <BackgroundImage /> 
         <div style={titleStyle}><Title /> </div>
         <div style={formStyle}><Login /> </div>
+        <Separator/>
+        <Levels/>
+        <WhatIs/>
+        <ContactUs/>
         </Content>
       
       <Footer style={{ textAlign: 'center' }}>
-      Ant Design ©2016 Created by Ant UED
+      T-Watch ©2018 Created by mlousada
     </Footer>    
     </Layout>
 
