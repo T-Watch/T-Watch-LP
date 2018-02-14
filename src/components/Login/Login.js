@@ -1,7 +1,6 @@
 import React from 'react'
 import './Login.css';
-import Modal from 'react-modal'
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, Modal} from 'antd';
 import RegisterForm from '../RegisterForm/RegisterForm.js'
 
 const FormItem = Form.Item;
@@ -13,9 +12,7 @@ class Login extends React.Component { //cuadro azul
       isActive: false
     }
   }
-  componentWillMount() {
-    Modal.setAppElement('body')
-  }
+
 
   handleSubmit(e) {
     e.preventDefault();
@@ -28,12 +25,10 @@ class Login extends React.Component { //cuadro azul
         }
       });
   }
-
   toggleModal() {
     this.setState({
       isActive: !this.state.isActive
     })
-
   }
 
   render() {
@@ -87,38 +82,30 @@ class Login extends React.Component { //cuadro azul
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
             </Button>
-            Or
-            <a href="" onClick={this
+           <span style={{color:'white'}}> Or </span> 
+            <span style={{cursor:'pointer', color:'#d9d9d9'}} onClick={this
               .toggleModal
-              .bind(this)}>register now!</a>
-            <Button
-              type="dashed"
-              ghost="true"
-              onClick={this
-              .toggleModal
-              .bind(this)}>
-              Register
-            </Button>
+              .bind(this)}> register now!</span>
+           
 
           </FormItem>
         </Form>
 
         <Modal
-          isOpen={this.state.isActive}
-          onRequestClose={this
-          .toggleModal
-          .bind(this)}>
+          zIndex={2}
+          visible={this.state.isActive}
+          onCancel={this
+          .toggleModal.bind(this)}>
           <Icon
             type="arrow-left"
             style={{
             fontSize: 20
           }}
             onClick={this
-            .toggleModal
-            .bind(this)}/>
+            .toggleModal.bind(this)}/>
 
-          <RegisterForm/>
-        </Modal>
+          <RegisterForm />
+            </Modal>
 
       </div>
 

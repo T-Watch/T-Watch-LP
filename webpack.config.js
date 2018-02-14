@@ -32,7 +32,7 @@ module.exports = {
   // tell Webpack to load TypeScript files
   resolve: {
     // Look for modules in .ts(x) files first, then .js
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
 
     // add 'src' to the modules, so that when you import files you can do so with 'src' as the relative route
     modules: ['src', 'node_modules'],
