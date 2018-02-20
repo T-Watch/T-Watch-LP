@@ -11,7 +11,7 @@ import WhatIs from './components/WhatIs/WhatIs';
 import ContactUs from './components/ContactUs/ContactUs';
 
 class App extends React.Component {
-  
+
   render() {
     return (
       <div>

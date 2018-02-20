@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import { graphql } from 'react-apollo';
+import { gql } from 'apollo-boost';
 import './RegisterForm.css';
 import {
     Form,
@@ -22,6 +24,7 @@ interface RegisterProps {
     confirmDirtyDefault: boolean;
     autoCompleteResultDefault: string[];
     form: any;
+    mutate: Function;
 }
 
 interface RegisterState {
@@ -32,7 +35,7 @@ function disabledDate(current: any) {
     return current && current > moment().endOf('day');
   }
 
-class RegisterForm extends React.Component < RegisterProps,
+class RegisterForm extends React.Component < RegisterProps& {mutate: Function},
 RegisterState > {
     constructor(props: RegisterProps) {
         super(props);
@@ -336,4 +339,12 @@ RegisterState > {
     }
 }
 
-export default Form.create()(RegisterForm);
+const submitRepository = gql`
+mutation user($user: UserInput!){
+    user(user: $user)
+}
+`;
+
+// export default Form.create()(RegisterForm);
+
+export default graphql(submitRepository)(Form.create()(RegisterForm));

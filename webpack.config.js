@@ -27,6 +27,9 @@ module.exports = {
       index: '/public/'
     },
     inline: true,
+    proxy: {
+      "/graphql": "http://vps439854.ovh.net:3003/graphql"
+    }
   },
 
   // tell Webpack to load TypeScript files
@@ -62,7 +65,10 @@ module.exports = {
         }
       },
       {
-        loader: 'ts-loader'
+        loader: 'ts-loader',
+        options: {
+          "transpileOnly": true
+        }
       }
       ]
     }, {
