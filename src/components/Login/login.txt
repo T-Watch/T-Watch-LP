@@ -1,0 +1,33 @@
+FORMA 1
+
+ toggleModal = () => {
+    this.setState({
+      isActive: !this.state.isActive
+    });
+  }
+
+
+onClick={this.toggleModal}
+
+
+FORMA 2
+
+ public toggleModal() : void {
+        this.setState({ isActive: !this.state.isActive });
+    }
+
+
+onClick = { () => this.toggleModal() }
+
+
+*****
+
+
+ANY
+    form: any;
+ handleSubmit = (e:any) => {
+      this.props.form.validateFields((err: any, values: any) => {
+            console.log('Received values of form: ', values);
+          }
+        });
+    }

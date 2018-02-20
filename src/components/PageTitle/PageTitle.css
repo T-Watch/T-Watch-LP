@@ -1,0 +1,10 @@
+.tit{
+    color: #d9d9d9;
+    font-family: 'Roboto', sans-serif
+}
+
+.titleElement{
+    position: absolute;
+    top: 40%;
+    left: 5%
+}
