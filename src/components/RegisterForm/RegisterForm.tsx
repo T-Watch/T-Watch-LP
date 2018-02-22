@@ -54,7 +54,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
         this.props.form.validateFields((err: any, values: any) => {
             values.birthday = values.birthday.toString();
             if (!err) {
-                console.log('Usuario: \n' + values);
+                console.log('Usuario: \n', values);
 
                 this.props.mutate({
                     variables: { user: values }
@@ -295,8 +295,8 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(
                         <RadioGroup>
-                            <Radio value="Male">Hombre</Radio>
-                            <Radio value="Female">Mujer</Radio>
+                            <Radio value="M">Hombre</Radio>
+                            <Radio value="F">Mujer</Radio>
                         </RadioGroup>
                     )}
                 </FormItem>
@@ -357,8 +357,8 @@ class RegisterForm extends React.Component<FullRegisterProps,
 }
 
 const submitRepository = gql`
-mutation user($user: UserInput!){
-    user(user: $user) 
+mutation Mutation($user: UserInput!){
+    user(input: $user) 
 }
 `;
 
