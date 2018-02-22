@@ -23,16 +23,24 @@ const RadioGroup = Radio.Group;
 interface RegisterProps {
     confirmDirtyDefault: boolean;
     autoCompleteResultDefault: string[];
+    closeDefault: Function;
 }
-
 interface FullRegisterProps extends RegisterProps {
     form: any;
     mutate: Function;
 }
+let USER = {
+    nombre: 'name'
+};
+
+let COACH = {
+    nombre: 'name'
+};
 
 interface RegisterState {
     confirmDirty: boolean;
     autoCompleteResult: string[];
+    close: Function;
 }
 function disabledDate(current: any) {
     return current && current > moment().endOf('day');
@@ -43,8 +51,9 @@ class RegisterForm extends React.Component<FullRegisterProps,
     constructor(props: FullRegisterProps) {
         super(props);
         this.state = {
-            confirmDirty: false,
-            autoCompleteResult: []
+            confirmDirty: this.props.confirmDirtyDefault,
+            autoCompleteResult: this.props.autoCompleteResultDefault,
+            close: this.props.closeDefault
         };
     }
 
@@ -55,10 +64,15 @@ class RegisterForm extends React.Component<FullRegisterProps,
             values.birthday = values.birthday.toString();
             if (!err) {
                 console.log('Usuario: \n', values);
-
                 this.props.mutate({
                     variables: { user: values }
-                });
+                })
+                .then(({ data }) => {
+                    console.log('got data');
+                  }).catch((error: any) => {
+                    console.log('there was an error sending the query', error);
+                  });
+                this.state.close();
                 // console.log('Received values of form: ', values);
             }
         });
@@ -97,10 +111,10 @@ class RegisterForm extends React.Component<FullRegisterProps,
         }
     }
 
-    transformDate = (value: any) => {
+    /*transformDate = (value: any) => {
         const birthDate: string = value.toString();
         return birthDate;
-    }
+    }*/
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -136,16 +150,12 @@ class RegisterForm extends React.Component<FullRegisterProps,
                 }
             }
         };
-        const prefixSelector = getFieldDecorator('prefix', { initialValue: '34' })(
-            <Select style={{ width: 70 }}>
-                <Option value="34">+34</Option>
-            </Select>
-        );
 
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormItem {...formItemLayout} label="Perfil">
                     {getFieldDecorator('type', {
+                        initialValue: 'USER',
                         rules: [
                             {
                                 required: true,
@@ -279,7 +289,6 @@ class RegisterForm extends React.Component<FullRegisterProps,
                             }
                         ]
                     })(<Input
-                        addonBefore={prefixSelector}
                         style={{
                             width: '100%'
                         }}
@@ -308,8 +317,6 @@ class RegisterForm extends React.Component<FullRegisterProps,
                                 type: 'object',
                                 required: true,
                                 message: 'Por favor, introduce tu fecha de nacimiento'
-                            }, {
-                                transform: this.transformDate
                             }
                         ]
                     }

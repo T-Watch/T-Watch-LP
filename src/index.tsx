@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
+import AppCards from './AppCards';
 import './index.css';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';

@@ -19,7 +19,9 @@ class App extends React.Component {
         <Content style={{background: '#ffff', padding: 0, minHeight: 700 }}>
         <BackgroundImage /> 
         <PageTitle /> 
-        <Login isActiveDefault={false} /> 
+        <div className="login-component">
+        <Login /> 
+        </div>
         <Separator/>
         <Levels/>
         <WhatIs/>

@@ -13,7 +13,6 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 const FormItem = Form.Item;
 
 interface LoginProps {
-    isActiveDefault: boolean;
     form: any;
 }
 
@@ -26,7 +25,7 @@ LoginState > {
     constructor(props: LoginProps) {
         super(props);
         this.state = {
-            isActive: this.props.isActiveDefault
+            isActive: false
         };
     }
 
@@ -47,7 +46,7 @@ LoginState > {
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <div className="login-component">
+            <div>
                 <Form
                     onSubmit={this.handleSubmit}
                     className="login-form"
@@ -92,7 +91,7 @@ LoginState > {
                                 style={{
                                 color: '#d9d9d9'
                             }}
-                            >Remember me
+                            >Recuerdame
                             </Checkbox>
                         )}
                         <a className="login-form-forgot" href="">Forgot password</a>
@@ -104,7 +103,7 @@ LoginState > {
                             color: 'white'
                         }}
                         >
-                            Or&nbsp;
+                            O si no tienes cuenta&nbsp;
                         </span>
                         <span
                             style={{
@@ -113,13 +112,13 @@ LoginState > {
                         }}
                             onClick={this.toggleModal}
                         >
-                        register now!
+                        registrate!
                         </span>
 
                     </FormItem>
                 </Form>
 
-                <Modal zIndex={2} visible={this.state.isActive} onCancel={this.toggleModal}>
+                <Modal zIndex={2} visible={this.state.isActive} onCancel={this.toggleModal} footer={null}>
                     <Icon
                         type="arrow-left"
                         style={{
@@ -128,7 +127,7 @@ LoginState > {
                         onClick={this.toggleModal}
                     />
 
-                    <RegisterForm confirmDirtyDefault={false} autoCompleteResultDefault={[]}/>
+                    <RegisterForm confirmDirtyDefault={false} autoCompleteResultDefault={[]} closeDefault={this.toggleModal}/>
                 </Modal>
 
             </div>

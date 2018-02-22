@@ -2,15 +2,14 @@
 
 ## Arreglar
 
-- Username y password se ven al abrir la ventana modal
 - Arreglar CSS (tamaños ventana)
-
+- Colores antd según desde donde se abra: comprobar si a un button se puede cambiar el color o si se puede eligir el archivo .less
+- Style login
 
 ## Dudas
-- Typescript
-- Servidor (formulario, pestañas)
-- CSS
 
 ## Pendiente
 - Mejorar descripción
-- Pasos para T-Watch
+- Layout para AppCards
+- Buscador
+- Menu segun deporte
