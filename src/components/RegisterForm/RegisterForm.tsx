@@ -23,6 +23,9 @@ const RadioGroup = Radio.Group;
 interface RegisterProps {
     confirmDirtyDefault: boolean;
     autoCompleteResultDefault: string[];
+}
+
+interface FullRegisterProps extends RegisterProps {
     form: any;
     mutate: Function;
 }
@@ -33,11 +36,11 @@ interface RegisterState {
 }
 function disabledDate(current: any) {
     return current && current > moment().endOf('day');
-  }
+}
 
-class RegisterForm extends React.Component < RegisterProps& {mutate: Function},
-RegisterState > {
-    constructor(props: RegisterProps) {
+class RegisterForm extends React.Component<FullRegisterProps,
+    RegisterState> {
+    constructor(props: FullRegisterProps) {
         super(props);
         this.state = {
             confirmDirty: false,
@@ -47,8 +50,8 @@ RegisterState > {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        
-        this.props.form.validateFields((err: any, values: any) => {            
+
+        this.props.form.validateFields((err: any, values: any) => {
             values.birthday = values.birthday.toString();
             if (!err) {
                 console.log('Usuario: \n' + values);
@@ -81,7 +84,7 @@ RegisterState > {
             callback('La contraseña debe tener 6 o más caracteres');
         }
         if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], {force: true});
+            form.validateFields(['confirm'], { force: true });
         }
         callback();
     }
@@ -89,8 +92,8 @@ RegisterState > {
         // Comparamos con toda la base de datos
         if (value === 'mariamolgas') {
             callback('Nombre de usuario ya existente');
-        } else {   
-           callback();
+        } else {
+            callback();
         }
     }
 
@@ -100,7 +103,7 @@ RegisterState > {
     }
 
     render() {
-        const {getFieldDecorator} = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         // const {autoCompleteResult} = this.state;
 
         const formItemLayout = {
@@ -133,8 +136,8 @@ RegisterState > {
                 }
             }
         };
-        const prefixSelector = getFieldDecorator('prefix', {initialValue: '34'})(
-            <Select style={{width: 70 }}>
+        const prefixSelector = getFieldDecorator('prefix', { initialValue: '34' })(
+            <Select style={{ width: 70 }}>
                 <Option value="34">+34</Option>
             </Select>
         );
@@ -142,29 +145,29 @@ RegisterState > {
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormItem {...formItemLayout} label="Perfil">
-                    {getFieldDecorator('type', {  
-                          rules: [
+                    {getFieldDecorator('type', {
+                        rules: [
                             {
                                 required: true,
                                 message: 'Especifique un tipo de usuario'
                             }
                         ]
                     })(<RadioGroup>
-                            <Radio value="USER">Deportista</Radio>
-                            <Radio value="COACH">Entrenador</Radio>
-                        </RadioGroup>
+                        <Radio value="USER">Deportista</Radio>
+                        <Radio value="COACH">Entrenador</Radio>
+                    </RadioGroup>
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label={(
-                    <span>
-                        Usuario&nbsp;
+                        <span>
+                            Usuario&nbsp;
                         <Tooltip title="Este será tu identificador en la plataforma">
-                            <Icon type="question-circle-o"/>
-                        </Tooltip>
-                    </span>
-                )}
+                                <Icon type="question-circle-o" />
+                            </Tooltip>
+                        </span>
+                    )}
                 >
                     {getFieldDecorator('username', {
                         rules: [
@@ -176,7 +179,7 @@ RegisterState > {
                                 validator: this.checkUsername
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Contraseña">
                     {getFieldDecorator('password', {
@@ -188,7 +191,7 @@ RegisterState > {
                                 validator: this.checkConfirm
                             }
                         ]
-                    })(<Input type="password"/>)}
+                    })(<Input type="password" />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Confirma Contraseña">
                     {getFieldDecorator('confirm', {
@@ -200,7 +203,7 @@ RegisterState > {
                                 validator: this.checkPassword
                             }
                         ]
-                    })(<Input type="password" onBlur={this.handleConfirmBlur}/>)}
+                    })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Nombre">
                     {getFieldDecorator('name', {
@@ -210,7 +213,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tu nombre.'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Apellidos">
                     {getFieldDecorator('lastName', {
@@ -220,7 +223,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tus apellidos.'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Email">
                     {getFieldDecorator('email', {
@@ -233,7 +236,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tu Email.'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Domicilio">
                     {getFieldDecorator('address-street-number', {
@@ -243,7 +246,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tu dirección (Calle, Número)'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Población">
                     {getFieldDecorator('address', {
@@ -253,7 +256,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tu población'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label="Código postal">
@@ -264,7 +267,7 @@ RegisterState > {
                                 message: 'Por favor, introduce tu código postal'
                             }
                         ]
-                    })(<Input/>)}
+                    })(<Input />)}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label="Teléfono">
@@ -278,8 +281,8 @@ RegisterState > {
                     })(<Input
                         addonBefore={prefixSelector}
                         style={{
-                        width: '100%'
-                    }}
+                            width: '100%'
+                        }}
                     />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Sexo">
@@ -300,41 +303,42 @@ RegisterState > {
 
                 <FormItem {...formItemLayout} label="Fecha de nacimiento">
                     {getFieldDecorator('birthday', {
-                        rules : [
-                        {
-                            type: 'object',
-                            required: true,
-                            message: 'Por favor, introduce tu fecha de nacimiento'
-                        }, { 
-                        transform: this.transformDate 
-                        }
-                    ]}
-                )(<DatePicker 
-                    disabledDate={disabledDate}
-                />
+                        rules: [
+                            {
+                                type: 'object',
+                                required: true,
+                                message: 'Por favor, introduce tu fecha de nacimiento'
+                            }, {
+                                transform: this.transformDate
+                            }
+                        ]
+                    }
+                    )(<DatePicker
+                        disabledDate={disabledDate}
+                    />
                     )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label="Altura">
                     {getFieldDecorator('height', {
-                                initialValue: 100
-                            }
+                        initialValue: 100
+                    }
                     )(<InputNumber
                         min={0}
                         max={400}
                     />)}
-                     <span className="ant-form-text"> cm</span>
+                    <span className="ant-form-text"> cm</span>
                 </FormItem>
                 <FormItem {...formItemLayout} label="Peso">
                     {getFieldDecorator('weight', {
-                                initialValue: 50
-                            }
-                        
+                        initialValue: 50
+                    }
+
                     )(<InputNumber
                         min={0}
                         max={200}
                     />)}
-                     <span className="ant-form-text"> kg</span>
+                    <span className="ant-form-text"> kg</span>
                 </FormItem>
 
                 {/*<FormItem {...tailFormItemLayout}>
@@ -362,4 +366,4 @@ mutation user($user: UserInput!){
 // Llamo a metodo user de la mutación para añadir nuevo usuario con el parámetro que había pasado
 // export default Form.create()(RegisterForm);
 
-export default graphql(submitRepository)(Form.create()(RegisterForm));
+export default Form.create()(graphql<{}, FullRegisterProps>(submitRepository)(RegisterForm as any));
