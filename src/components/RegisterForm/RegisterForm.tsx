@@ -158,7 +158,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     </RadioGroup>
                     )}
                 </FormItem>
-                <FormItem
+                {/*<FormItem
                     {...formItemLayout}
                     label={(
                         <span>
@@ -180,7 +180,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                             }
                         ]
                     })(<Input />)}
-                </FormItem>
+                </FormItem>*/}
                 <FormItem {...formItemLayout} label="Contraseña">
                     {getFieldDecorator('password', {
                         rules: [
@@ -238,7 +238,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(<Input />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Domicilio">
+                {/*<FormItem {...formItemLayout} label="Domicilio">
                     {getFieldDecorator('address-street-number', {
                         rules: [
                             {
@@ -247,7 +247,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                             }
                         ]
                     })(<Input />)}
-                </FormItem>
+                </FormItem>*/}
                 <FormItem {...formItemLayout} label="Población">
                     {getFieldDecorator('address', {
                         rules: [
@@ -259,7 +259,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     })(<Input />)}
                 </FormItem>
 
-                <FormItem {...formItemLayout} label="Código postal">
+               {/* <FormItem {...formItemLayout} label="Código postal">
                     {getFieldDecorator('postal-code', {
                         rules: [
                             {
@@ -268,7 +268,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                             }
                         ]
                     })(<Input />)}
-                </FormItem>
+                </FormItem>*/}
 
                 <FormItem {...formItemLayout} label="Teléfono">
                     {getFieldDecorator('phoneNumber', {
