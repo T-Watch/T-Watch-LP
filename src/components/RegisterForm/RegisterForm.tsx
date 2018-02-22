@@ -47,12 +47,18 @@ RegisterState > {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        this.props.form.validateFields((err: any, values: any) => {
-                console.log(values.type);
-                if (!err) {
-                    // console.log('Received values of form: ', values);
-                }
-            });
+        
+        this.props.form.validateFields((err: any, values: any) => {            
+            values.birthday = values.birthday.toString();
+            if (!err) {
+                console.log('Usuario: \n' + values);
+
+                this.props.mutate({
+                    variables: { user: values }
+                });
+                // console.log('Received values of form: ', values);
+            }
+        });
     }
     handleConfirmBlur = (e: any) => {
         const value = e.target.value;
@@ -86,6 +92,11 @@ RegisterState > {
         } else {   
            callback();
         }
+    }
+
+    transformDate = (value: any) => {
+        const birthDate: string = value.toString();
+        return birthDate;
     }
 
     render() {
@@ -281,19 +292,21 @@ RegisterState > {
                         ]
                     })(
                         <RadioGroup>
-                            <Radio value="MALE">Hombre</Radio>
-                            <Radio value="FEMALE">Mujer</Radio>
+                            <Radio value="Male">Hombre</Radio>
+                            <Radio value="Female">Mujer</Radio>
                         </RadioGroup>
                     )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label="Fecha de nacimiento">
-                    {getFieldDecorator('birthdate', {
+                    {getFieldDecorator('birthday', {
                         rules : [
                         {
                             type: 'object',
                             required: true,
                             message: 'Por favor, introduce tu fecha de nacimiento'
+                        }, { 
+                        transform: this.transformDate 
                         }
                     ]}
                 )(<DatePicker 
@@ -324,13 +337,13 @@ RegisterState > {
                      <span className="ant-form-text"> kg</span>
                 </FormItem>
 
-                <FormItem {...tailFormItemLayout}>
+                {/*<FormItem {...tailFormItemLayout}>
                     {getFieldDecorator('agreement', {valuePropName: 'checked'})(
                         <Checkbox>I have read the &nbsp;
                             <a href="">agreement</a>
                         </Checkbox>
                     )}
-                </FormItem>
+                </FormItem>*/}
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
                 </FormItem>
@@ -341,10 +354,12 @@ RegisterState > {
 
 const submitRepository = gql`
 mutation user($user: UserInput!){
-    user(user: $user)
+    user(user: $user) 
 }
 `;
 
+// mutación user, le paso parametro de tipo UserInput (nombre,fecha, usuario...) 
+// Llamo a metodo user de la mutación para añadir nuevo usuario con el parámetro que había pasado
 // export default Form.create()(RegisterForm);
 
 export default graphql(submitRepository)(Form.create()(RegisterForm));

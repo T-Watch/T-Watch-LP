@@ -28,7 +28,7 @@ module.exports = {
     },
     inline: true,
     proxy: {
-      "/graphql": "http://vps439854.ovh.net:3003/graphql"
+      "/graphql": "http://vps439854.ovh.net:3003"
     }
   },
 
