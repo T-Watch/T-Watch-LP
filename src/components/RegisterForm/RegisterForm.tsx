@@ -21,9 +21,7 @@ const Option = Select.Option;
 // const AutoCompleteOption = AutoComplete.Option;
 const RadioGroup = Radio.Group;
 interface RegisterProps {
-    confirmDirtyDefault: boolean;
-    autoCompleteResultDefault: string[];
-    closeDefault: Function;
+    close: Function;
 }
 interface FullRegisterProps extends RegisterProps {
     form: any;
@@ -51,9 +49,9 @@ class RegisterForm extends React.Component<FullRegisterProps,
     constructor(props: FullRegisterProps) {
         super(props);
         this.state = {
-            confirmDirty: this.props.confirmDirtyDefault,
-            autoCompleteResult: this.props.autoCompleteResultDefault,
-            close: this.props.closeDefault
+            confirmDirty: false,
+            autoCompleteResult: [],
+            close: this.props.close
         };
     }
 
@@ -62,12 +60,13 @@ class RegisterForm extends React.Component<FullRegisterProps,
 
         this.props.form.validateFields((err: any, values: any) => {
             values.birthday = values.birthday.toString();
+            delete values.confirm;
             if (!err) {
                 console.log('Usuario: \n', values);
                 this.props.mutate({
                     variables: { user: values }
                 })
-                .then(({ data }) => {
+                .then(({ data }: any) => {
                     console.log('got data');
                   }).catch((error: any) => {
                     console.log('there was an error sending the query', error);

@@ -127,7 +127,7 @@ LoginState > {
                         onClick={this.toggleModal}
                     />
 
-                    <RegisterForm confirmDirtyDefault={false} autoCompleteResultDefault={[]} closeDefault={this.toggleModal}/>
+                    <RegisterForm close={this.toggleModal}/>
                 </Modal>
 
             </div>
