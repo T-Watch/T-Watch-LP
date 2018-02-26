@@ -7,6 +7,7 @@ interface TrainerCardProps {
     name: string;
     description: string;
     photo: string;
+    location: string;
 }
 
 interface TrainerCardState {
@@ -14,6 +15,7 @@ interface TrainerCardState {
     description: string;
     photo: string;
     isActive: boolean;
+    location: string;
 }
 export default class TrainerCard extends React.Component <TrainerCardProps, TrainerCardState > {
     constructor(props: TrainerCardProps) {
@@ -22,6 +24,7 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
             name: this.props.name,
             description: this.props.description,
             photo: this.props.photo,
+            location: this.props.location,
             isActive: false
         };
     }
