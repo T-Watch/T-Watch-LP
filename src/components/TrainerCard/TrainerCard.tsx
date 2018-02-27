@@ -8,6 +8,7 @@ interface TrainerCardProps {
     description: string;
     photo: string;
     location: string;
+    type: string;    
 }
 
 interface TrainerCardState {
@@ -16,6 +17,7 @@ interface TrainerCardState {
     photo: string;
     isActive: boolean;
     location: string;
+    type: string;
 }
 export default class TrainerCard extends React.Component <TrainerCardProps, TrainerCardState > {
     constructor(props: TrainerCardProps) {
@@ -25,6 +27,7 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
             description: this.props.description,
             photo: this.props.photo,
             location: this.props.location,
+            type: this.props.type,
             isActive: false
         };
     }
@@ -57,8 +60,9 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
                     visible={this.state.isActive} 
                     onCancel={this.toggleModal} 
                     footer={null}
+                    className="modal-login"
                 >
-                    <Login/>
+                    <Login cardScreen={true}/>
                 </Modal>
             </div>
         );

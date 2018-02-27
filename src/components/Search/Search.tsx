@@ -2,7 +2,8 @@ import React from 'react';
 import { AutoComplete } from 'antd';
 import './Search.css';
 
-const dataSource = ['Maria Losada', 'Nuria Outeiral'];
+const dataSource = ['Maria Losada', 
+'Nuria Outeiral', 'Brais Piñeiro', 'Martin Paz', 'Hector González', 'Raúl Iglesias'];
 
 export default class Search extends React.Component { // cuadro azul
 

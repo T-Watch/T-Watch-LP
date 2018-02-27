@@ -20,7 +20,7 @@ class App extends React.Component {
         <BackgroundImage /> 
         <PageTitle /> 
         <div className="login-component">
-        <Login /> 
+        <Login cardScreen={false} /> 
         </div>
         <Separator/>
         <Levels/>

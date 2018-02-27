@@ -11,15 +11,100 @@ interface AppCardsState {
   submenu: string;
   item: string;
 }
+
+const VigoRunningCoaches =  (
+  <div>
+    <TrainerCard 
+      name="Raul Iglesias" 
+      description="El mejor entrenador del mundo mundial" 
+      photo="" 
+      location="Vigo"
+      type="Running"
+    />
+     </div>
+);
+
+const VigoCyclingCoaches =  (
+  <div>
+    <TrainerCard 
+      name="Brais Piñeiro" 
+      description="El mejor entrenador del mundo mundial" 
+      photo="" 
+      location="Vigo"
+      type="Running"
+    />
+     </div>
+);
+
+const OurenseRunningCoaches =  (
+  <div>
+     <TrainerCard 
+      name="Hector González" 
+      description="La mejor entrenadora del mundo mundial" 
+      photo="" 
+      location="Ourense"
+      type="Running"
+     />
+    <TrainerCard 
+      name="Maria Losada" 
+      description="La mejor entrenadora del mundo mundial" 
+      photo="" 
+      location="Ourense"
+      type="Running"
+    />
+  </div>  
+);
+
+const OurenseCyclingCoaches =  (
+  <div>
+    <TrainerCard 
+      name="Nuria Outeiral" 
+      description="El mejor entrenador del mundo mundial" 
+      photo="" 
+      location="Vigo"
+      type="Running"
+    />
+     </div>
+);
+
+const LugoCyclingCoaches =  (
+  <div>
+    <TrainerCard 
+      name="Martin Paz" 
+      description="El mejor entrenador del mundo mundial" 
+      photo="" 
+      location="Vigo"
+      type="Running"
+    />
+     </div>
+);
+
+const runners = [VigoRunningCoaches, OurenseRunningCoaches];
+const cyclists = [LugoCyclingCoaches, OurenseCyclingCoaches, VigoCyclingCoaches];
+const coaches = [runners, cyclists];
 function ShowTargets(props: any) {
   const item = props.item;
-  if (item === 'Vigo') {
-    return <TrainerCard name="María Losada" 
-    description="La mejor entrenadora del mundo mundial" photo="" location="Vigo"/>;
-
-  }
-  else{
-  return <GuestGreeting />;
+  const submenu = props.submenu;
+  console.log('show' + item);
+  if (submenu === 'Running') {
+    if (item === 'Vigo') {
+    return (VigoRunningCoaches);
+    } else if (item === 'Ourense') {
+      return (OurenseRunningCoaches);
+    } else {
+      return runners;
+   }
+  } else if (submenu === 'Cycling') {
+    if (item === 'Vigo') {
+      return (VigoCyclingCoaches);
+      } else if (item === 'Ourense') {
+        return (OurenseCyclingCoaches);
+      } else if (item === 'Lugo') {
+       return LugoCyclingCoaches;
+      } else {
+        return cyclists;
+     }  } else {
+   return coaches;
 }
 }
 class AppCards extends React.Component  <any, AppCardsState > {
@@ -40,7 +125,7 @@ searchVigo = () => {
   });
 }
 setSubmenu = (submenu: string) => {
-  console.log('running');
+  console.log(submenu);
   this.setState({
       submenu: submenu
       });
@@ -81,7 +166,6 @@ handleClick = (e: any) => {
           key="Running" 
           title={<span><Icon type="mail" />
           <span>Running</span></span>}
-          onTitleClick={this.setSubmenu('Running')}
         >
           <Menu.Item key="All">Todos</Menu.Item>
           <Menu.Item key="Vigo">Vigo</Menu.Item>
@@ -91,7 +175,6 @@ handleClick = (e: any) => {
         <SubMenu 
           key="Cycling" 
           title={<span><Icon type="mail" /><span>Ciclismo</span></span>}
-          onTitleClick={this.setSubmenu('Cycling')}
         >
           <Menu.Item key="All">Todos</Menu.Item>
           <Menu.Item key="Vigo">Vigo</Menu.Item>
@@ -108,17 +191,10 @@ handleClick = (e: any) => {
         <Breadcrumb.Item>{this.state.submenu}</Breadcrumb.Item>
         <Breadcrumb.Item>{this.state.item}</Breadcrumb.Item>
       </Breadcrumb>
-   {
-     this.state.Vigo ?
-     <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-     <TrainerCard name="María Losada" description="La mejor entrenadora del mundo mundial" photo="" location="Vigo"/>
-          </div>
-     : 
-     <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-     <TrainerCard name="María Losada" description="La mejor entrenadora del mundo mundial" photo="" location="Vigo"/>
-         <TrainerCard name="Nuria Outeiral" description="La segunda mejor entrenadora" photo="" location="Vigo"/>       
-          </div>
-   }     
+
+      <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
+      <ShowTargets item={this.state.item} submenu={this.state.submenu}/> {/*https://reactjs.org/docs/conditional-rendering.html*/}
+      </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>
     T-Watch ©2018 Created by mlousada

@@ -9,11 +9,13 @@ import {
     Modal
 } from 'antd';
 import RegisterForm from '../RegisterForm/RegisterForm';
+import { queue } from 'async';
 
 const FormItem = Form.Item;
 
 interface LoginProps {
     form: any;
+    cardScreen: boolean;
 }
 
 interface LoginState {
@@ -45,6 +47,18 @@ LoginState > {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const cardScreen = this.props.cardScreen;
+        let colorText: string;
+        let colorLink: string;
+        
+        if (cardScreen) {
+            colorText = '#000000';
+            colorLink = '#005cb3';
+        } else {
+            colorLink = '#d9d9d9';
+            colorText = '#FFFFFF';
+
+        }
         return (
             <div>
                 <Form
@@ -89,18 +103,25 @@ LoginState > {
                         })(
                             <Checkbox
                                 style={{
-                                color: '#d9d9d9'
+                                color: colorLink
                             }}
                             >Recuerdame
                             </Checkbox>
                         )}
-                        <a className="login-form-forgot" href="">Forgot password</a>
+                        <a 
+                            style={{
+                            color: colorLink
+                        }}
+                            className="login-form-forgot" 
+                            href=""
+                        >Olvidé la contraseña
+                        </a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
                         </Button>
                         <span
                             style={{
-                            color: 'white'
+                            color: colorText
                         }}
                         >
                             O si no tienes cuenta&nbsp;
@@ -108,7 +129,7 @@ LoginState > {
                         <span
                             style={{
                             cursor: 'pointer',
-                            color: '#d9d9d9'
+                            color: colorLink
                         }}
                             onClick={this.toggleModal}
                         >
