@@ -20,6 +20,27 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 // const AutoCompleteOption = AutoComplete.Option;
 const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
+const optionsUSER = [
+    { label: 'Usuario', value: 'USER' },
+    { label: 'Entrenador', value: 'COACH' }
+  ];
+const optionsSpecialities = [
+    { label: 'Cycling', value: 'Cycling' },
+    { label: 'Running', value: 'Running' } // añadir "OTRO"
+  ];
+const province = (
+    <Select defaultValue="Pontevedra">
+      <Option value="A Coruña">A Coruña</Option>
+      <Option value="Álava">Álava</Option>
+      <Option value="Albacete">Albacete</Option>
+      <Option value="Almería">Almería</Option>
+      <Option value="Asturias">Asturias</Option>
+      <Option value="Ávila">Ávila</Option>
+      <Option value="Badajoz">Badajoz</Option>
+      <Option value="Islas Baleares">Islas Baleares</Option>
+    </Select>
+);
 interface RegisterProps {
     close: Function;
 }
@@ -39,6 +60,7 @@ interface RegisterState {
     confirmDirty: boolean;
     autoCompleteResult: string[];
     close: Function;
+    user: boolean;
 }
 function disabledDate(current: any) {
     return current && current > moment().endOf('day');
@@ -51,10 +73,11 @@ class RegisterForm extends React.Component<FullRegisterProps,
         this.state = {
             confirmDirty: false,
             autoCompleteResult: [],
-            close: this.props.close
+            close: this.props.close,
+            user: true
         };
     }
-
+  
     handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -110,6 +133,18 @@ class RegisterForm extends React.Component<FullRegisterProps,
         }
     }
 
+    isUser = (e: any) => {
+        if (e.target.value === 'USER') {
+            this.setState({
+                user: true
+            }); 
+        } else if (e.target.value === 'COACH') {
+            this.setState({
+                user: false
+            }); 
+        }
+          
+    }
     /*transformDate = (value: any) => {
         const birthDate: string = value.toString();
         return birthDate;
@@ -161,11 +196,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                                 message: 'Especifique un tipo de usuario'
                             }
                         ]
-                    })(<RadioGroup>
-                        <Radio value="USER">Deportista</Radio>
-                        <Radio value="COACH">Entrenador</Radio>
-                    </RadioGroup>
-                    )}
+                    })(<RadioGroup options={optionsUSER} onChange={this.isUser}/>)}
                 </FormItem>
                 {/*<FormItem
                     {...formItemLayout}
@@ -257,15 +288,28 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(<Input />)}
                 </FormItem>*/}
-                <FormItem {...formItemLayout} label="Población">
+                <FormItem {...formItemLayout} label="Provincia">
                     {getFieldDecorator('address', {
+                        initialValue: 'Pontevedra',
                         rules: [
                             {
                                 required: true,
-                                message: 'Por favor, introduce tu población'
                             }
                         ]
-                    })(<Input />)}
+                    })(   
+                    <Select>
+                        <Option value="A Coruña">A Coruña</Option>
+                        <Option value="Álava">Álava</Option>
+                        <Option value="Albacete">Albacete</Option>
+                        <Option value="Almería">Almería</Option>
+                        <Option value="Asturias">Asturias</Option>
+                        <Option value="Ávila">Ávila</Option>
+                        <Option value="Badajoz">Badajoz</Option>
+                        <Option value="Islas Baleares">Islas Baleares</Option>
+                        <Option value="Lugo">Lugo</Option>                        
+                        <Option value="Pontevedra">Pontevedra</Option>
+                        <Option value="Ourense">Ourense</Option> 
+                  </Select>)}
                 </FormItem>
 
                {/* <FormItem {...formItemLayout} label="Código postal">
@@ -324,29 +368,112 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     />
                     )}
                 </FormItem>
-
+        {this.state.user ? 
+            <div>
                 <FormItem {...formItemLayout} label="Altura">
-                    {getFieldDecorator('height', {
-                        initialValue: 100
+            {getFieldDecorator('height', {
+                initialValue: 100,
+                rules: [
+                    {
+                        required: true,
                     }
-                    )(<InputNumber
-                        min={0}
-                        max={400}
-                    />)}
-                    <span className="ant-form-text"> cm</span>
-                </FormItem>
-                <FormItem {...formItemLayout} label="Peso">
-                    {getFieldDecorator('weight', {
-                        initialValue: 50
+                ]
+            }
+            )(<InputNumber
+                min={0}
+                max={400}
+            />)}
+            <span className="ant-form-text"> cm</span>
+            </FormItem> 
+            <FormItem {...formItemLayout} label="Peso">
+            {getFieldDecorator('weight', {
+                initialValue: 50,
+                rules: [
+                    {
+                        required: true,
                     }
+                ]
+            }
 
-                    )(<InputNumber
-                        min={0}
-                        max={200}
-                    />)}
-                    <span className="ant-form-text"> kg</span>
+            )(<InputNumber
+                min={0}
+                max={200}
+            />)}
+            <span className="ant-form-text"> kg</span>
+            </FormItem> 
+            <FormItem {...formItemLayout} label="Enfermedades">
+                    {getFieldDecorator('diseases', {
+                        rules: [
+                            {
+                                message: 'Por favor, haznos saber si tienes alguna enfermedad.'
+                            }
+                        ]
+                    })(<Input />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Alergias">
+                    {getFieldDecorator('allergies', {
+                        rules: [
+                            {
+                                message: 'Por favor, haznos saber si tienes alguna alergias.'
+                            }
+                        ]
+                    })(<Input />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Operaciones">
+                    {getFieldDecorator('surgeries', {
+                        rules: [
+                            {
+                                message: 'Por favor, haznos saber si tienes alguna alergias.'
+                            }
+                        ]
+                    })(<Input />)}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label="Plan de suscripción">
+                    {getFieldDecorator('plan', {
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Por favor, introduce el plan al que se va a suscribir'
+                            }
+                        ]
+                    })(
+                        <RadioGroup>
+                            <Radio value="Basic">Basic&nbsp;
+                            <Tooltip title="Entrenamiento online">
+                              <Icon type="question-circle-o" />
+                            </Tooltip>
+                          </Radio>
+                          <br/>
+                            <Radio value="Standard">Standard&nbsp;
+                            <Tooltip title="Basic + quedadas con tu entrenador">
+                              <Icon type="question-circle-o" />
+                            </Tooltip>
+                          </Radio>    
+                          <br/>                                                  
+                            <Radio value="Premium">Premium&nbsp;
+                            <Tooltip title="Standard + test físico inicial en un centro cercano al usuario">
+                              <Icon type="question-circle-o" />
+                            </Tooltip>
+                          </Radio>  
+                        </RadioGroup>
+                    )}
                 </FormItem>
 
+        </div>
+        : 
+        {/*<div>
+          <FormItem {...formItemLayout} label="Especialidad">
+                    {getFieldDecorator('specialities', {
+                        initialValue: ['Running'],
+                        rules: [{
+                            required: true
+                        }]
+                        
+                    })(    <CheckboxGroup options={optionsSpecialities} />
+                )}
+            </FormItem>
+            </div>*/}    }       
                 {/*<FormItem {...tailFormItemLayout}>
                     {getFieldDecorator('agreement', {valuePropName: 'checked'})(
                         <Checkbox>I have read the &nbsp;
