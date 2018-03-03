@@ -1,19 +1,23 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { Header, Content, Footer } = Layout;
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 import './App.css';
 import Search from './components/Search/Search';
+import ShowTargets from './components/ShowTargets/ShowTargets';
 import TrainerCard from './components/TrainerCard/TrainerCard';
-const  SubMenu  = Menu.SubMenu;
+const { Header, Content, Footer } = Layout;
+const  SubMenu  = Menu.SubMenu; 
 
 interface AppCardsState {
-  Vigo: boolean;
   submenu: string;
   item: string;
 }
 
+// VIGO
+
 const VigoRunningCoaches =  (
-  <div>
     <TrainerCard 
       name="Raul Iglesias" 
       description="El mejor entrenador del mundo mundial" 
@@ -21,11 +25,10 @@ const VigoRunningCoaches =  (
       location="Vigo"
       type="Running"
     />
-     </div>
+     
 );
 
 const VigoCyclingCoaches =  (
-  <div>
     <TrainerCard 
       name="Brais Piñeiro" 
       description="El mejor entrenador del mundo mundial" 
@@ -33,8 +36,9 @@ const VigoCyclingCoaches =  (
       location="Vigo"
       type="Running"
     />
-     </div>
 );
+
+// OURENSE
 
 const OurenseRunningCoaches =  (
   <div>
@@ -56,7 +60,6 @@ const OurenseRunningCoaches =  (
 );
 
 const OurenseCyclingCoaches =  (
-  <div>
     <TrainerCard 
       name="Nuria Outeiral" 
       description="El mejor entrenador del mundo mundial" 
@@ -64,11 +67,20 @@ const OurenseCyclingCoaches =  (
       location="Vigo"
       type="Running"
     />
-     </div>
+);
+
+// LUGO
+const LugoRunningCoaches =  (
+  <TrainerCard 
+      name="Martin Paz" 
+      description="El mejor entrenador del mundo mundial" 
+      photo="" 
+      location="Vigo"
+      type="Running"
+  />
 );
 
 const LugoCyclingCoaches =  (
-  <div>
     <TrainerCard 
       name="Martin Paz" 
       description="El mejor entrenador del mundo mundial" 
@@ -76,53 +88,53 @@ const LugoCyclingCoaches =  (
       location="Vigo"
       type="Running"
     />
-     </div>
 );
 
 const runners = [VigoRunningCoaches, OurenseRunningCoaches];
 const cyclists = [LugoCyclingCoaches, OurenseCyclingCoaches, VigoCyclingCoaches];
 const coaches = [runners, cyclists];
-function ShowTargets(props: any) {
+
+/*function ShowTargets(props: any) {
   const item = props.item;
   const submenu = props.submenu;
-  console.log('show' + item);
+  console.log('submenu ' + submenu + ' item ' + item);
   if (submenu === 'Running') {
     if (item === 'Vigo') {
+    console.log('Vigo Running');
     return (VigoRunningCoaches);
     } else if (item === 'Ourense') {
+      console.log('Ourense Running');
       return (OurenseRunningCoaches);
+    } else if (item === 'Lugo') {
+      console.log('Lugo Running');
+      return (LugoRunningCoaches);
     } else {
       return runners;
    }
   } else if (submenu === 'Cycling') {
     if (item === 'Vigo') {
+      console.log('Vigo Cycling');
       return (VigoCyclingCoaches);
       } else if (item === 'Ourense') {
+        console.log('Ourense Cycling');  
         return (OurenseCyclingCoaches);
       } else if (item === 'Lugo') {
-       return LugoCyclingCoaches;
+      console.log('Lugo Cycling');
+      return LugoCyclingCoaches;
       } else {
         return cyclists;
-     }  } else {
+     }  
+  } else {
    return coaches;
-}
-}
+  }
+}*/
 class AppCards extends React.Component  <any, AppCardsState > {
   constructor(props: any) {
     super(props);
     this.state = {
-        Vigo: false,
         submenu: '',
         item: ''
     };
-}
-
-searchVigo = () => {
-  console.log('Entra');
-  
-  this.setState({
-      Vigo: !this.state.Vigo
-  });
 }
 setSubmenu = (submenu: string) => {
   console.log(submenu);
@@ -132,7 +144,6 @@ setSubmenu = (submenu: string) => {
 }
 
 setItem = (item: string) => {
-  console.log('bvigo');
   this.setState({
       item: item
       });
@@ -141,19 +152,12 @@ handleClick = (e: any) => {
   console.log('click ', e.keyPath);
   this.setItem(e.key);
   this.setSubmenu(e.keyPath[1]);
-
-  if (e.key === 'Vigo') {
-    this.searchVigo();
-    
-  }
- 
 }
 
   render() {
     return (
       <div>
-
-          <Layout className="layout">
+<Layout className="layout">
     <Header>
       <Menu
         theme="dark"
@@ -162,6 +166,9 @@ handleClick = (e: any) => {
         style={{ lineHeight: '64px' }}
         onClick={this.handleClick}
       >
+          <Menu.Item key="back">
+            <Icon type="arrow-left" />
+        </Menu.Item>        
         <SubMenu  
           key="Running" 
           title={<span><Icon type="mail" />
@@ -193,7 +200,10 @@ handleClick = (e: any) => {
       </Breadcrumb>
 
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
-      <ShowTargets item={this.state.item} submenu={this.state.submenu}/> {/*https://reactjs.org/docs/conditional-rendering.html*/}
+      <ShowTargets 
+        item={this.state.item} 
+        submenu={this.state.submenu}
+      /> {/*https://reactjs.org/docs/conditional-rendering.html*/}
       </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>

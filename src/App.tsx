@@ -26,8 +26,7 @@ class App extends React.Component {
         <Levels/>
         <WhatIs/>
         <ContactUs/>
-        </Content>
-      
+        </Content>      
       <Footer style={{ textAlign: 'center' }}>
       T-Watch ©2018 Created by mlousada
     </Footer>    

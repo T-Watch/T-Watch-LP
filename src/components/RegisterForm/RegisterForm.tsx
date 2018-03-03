@@ -48,13 +48,6 @@ interface FullRegisterProps extends RegisterProps {
     form: any;
     mutate: Function;
 }
-let USER = {
-    nombre: 'name'
-};
-
-let COACH = {
-    nombre: 'name'
-};
 
 interface RegisterState {
     confirmDirty: boolean;
@@ -461,10 +454,10 @@ class RegisterForm extends React.Component<FullRegisterProps,
                 </FormItem>
 
         </div>
-        : 
-        {/*<div>
+        : null}
+        <div>
           <FormItem {...formItemLayout} label="Especialidad">
-                    {getFieldDecorator('specialities', {
+                    {getFieldDecorator('Fields', {
                         initialValue: ['Running'],
                         rules: [{
                             required: true
@@ -473,7 +466,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     })(    <CheckboxGroup options={optionsSpecialities} />
                 )}
             </FormItem>
-            </div>*/}    }       
+            </div>  
                 {/*<FormItem {...tailFormItemLayout}>
                     {getFieldDecorator('agreement', {valuePropName: 'checked'})(
                         <Checkbox>I have read the &nbsp;

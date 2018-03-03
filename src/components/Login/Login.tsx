@@ -10,6 +10,8 @@ import {
 } from 'antd';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { queue } from 'async';
+import { graphql } from 'react-apollo';
+import { gql } from 'apollo-boost';
 
 const FormItem = Form.Item;
 
@@ -17,14 +19,19 @@ interface LoginProps {
     form: any;
     cardScreen: boolean;
 }
+interface FullLoginProps extends LoginProps {
+    token: Function;
+    email: string;
+    password: string;
+}
 
 interface LoginState {
     isActive: boolean;
 }
-class Login extends React.Component <LoginProps,
+class Login extends React.Component <FullLoginProps,
 LoginState > {
 
-    constructor(props: LoginProps) {
+    constructor(props: FullLoginProps) {
         super(props);
         this.state = {
             isActive: false
@@ -34,9 +41,22 @@ LoginState > {
     handleSubmit = (e: any) => {
       e.preventDefault();
       this.props.form.validateFields((err: any, values: any) => {
-          if (!err) {
+        if (!err) {
+            console.log('Usuario: \n', values);
+            this.props.token({
+                variables: {
+                    email: values.email, 
+                    password: values.password
+                } 
+                 
+            })
+            .then(({ data }: any) => {
+                console.log('got data ' + data);
+              }).catch((error: any) => {
+                console.log('there was an error sending the query', error);
+              });
             // console.log('Received values of form: ', values);
-          }
+        }
         });
     }
     toggleModal = () => {
@@ -66,17 +86,17 @@ LoginState > {
                     className="login-form"
                 >
                     <FormItem>
-                        {getFieldDecorator('userName', {
+                        {getFieldDecorator('email', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please input your username!'
+                                    message: 'Please input your email!'
                                 }
                             ]
                         })(
                             <Input
                                 prefix={< Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-                                placeholder="Username"
+                                placeholder="Email"
                             />
                         )}
                     </FormItem>
@@ -157,4 +177,14 @@ LoginState > {
     }
 }
 
-export default Form.create()(Login);
+const getToken = gql`
+query Query($email: String!, $password: String!) {
+	token(email: $email, password: $password){
+		error
+		token
+	}
+}
+`
+;
+
+export default Form.create()(graphql<{}, FullLoginProps>(getToken)(Login as any));

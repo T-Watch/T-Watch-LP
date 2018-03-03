@@ -1,6 +1,7 @@
 import React from 'react';
 import './WhatIs.css';
 import { Col, Row } from 'antd';
+import GetCoachesCards from '../ButtonGoCards/ButtonGoCards';
 
 export default class WhatIs extends React.Component { 
     
@@ -21,6 +22,9 @@ render() {
                 <Col span={4}>
                     <img src="/public/smartwatch.jpeg" className="imagen"/>
                 </Col>
+            </Row>
+            <Row>
+                <GetCoachesCards/>
             </Row>
         
         </div>
