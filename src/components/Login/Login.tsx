@@ -66,6 +66,7 @@ LoginState > {
     }
 
     render() {
+        console.log(this.props);
         const {getFieldDecorator} = this.props.form;
         const cardScreen = this.props.cardScreen;
         let colorText: string;
@@ -187,4 +188,4 @@ query Query($email: String!, $password: String!) {
 `
 ;
 
-export default Form.create()(graphql<{}, FullLoginProps>(getToken)(Login as any));
+export default Form.create()(graphql<{}, FullLoginProps>(getToken, {name: 'token'})(Login as any));
