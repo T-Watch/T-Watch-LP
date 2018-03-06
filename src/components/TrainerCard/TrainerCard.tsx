@@ -8,7 +8,8 @@ interface TrainerCardProps {
     description: string;
     photo: string;
     location: string;
-    type: string;    
+    type: string;  
+    id: string;  
 }
 
 interface TrainerCardState {
@@ -18,11 +19,13 @@ interface TrainerCardState {
     isActive: boolean;
     location: string;
     type: string;
+    id: string;
 }
 export default class TrainerCard extends React.Component <TrainerCardProps, TrainerCardState > {
     constructor(props: TrainerCardProps) {
         super(props);
         this.state = {
+            id: this.props.id,
             name: this.props.name,
             description: this.props.description,
             photo: this.props.photo,
@@ -62,11 +65,10 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
                     footer={null}
                     className="modal-login"
                 >
-                  <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} /> 
+                  <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} idCoach={this.props.id} /> 
                 </Modal>
             </div>
         );
     }
 
 }
-

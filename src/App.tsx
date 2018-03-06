@@ -20,7 +20,7 @@ class App extends React.Component {
         <BackgroundImage /> 
         <PageTitle /> 
         <div className="login-component">
-        <Login linkStyle={{color: '#d9d9d9'}} textStyle={{color: '#FFFFFF'}} /> 
+        <Login linkStyle={{color: '#d9d9d9'}} textStyle={{color: '#FFFFFF'}}/> 
         </div>
         <Separator/>
         <Levels/>

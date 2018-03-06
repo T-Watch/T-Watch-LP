@@ -20,7 +20,8 @@ interface ShowCardsProps {
 // VIGO
 
 const VigoRunningCoaches =  (
-    <TrainerCard 
+    <TrainerCard
+      id="entrenador@gmail.com" 
       name="Raul Iglesias" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
@@ -32,6 +33,7 @@ const VigoRunningCoaches =  (
 
 const VigoCyclingCoaches =  (
     <TrainerCard 
+      id="entrenador@gmail.com"
       name="Brais Piñeiro" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
@@ -45,6 +47,7 @@ const VigoCyclingCoaches =  (
 const OurenseRunningCoaches =  (
   <div>
      <TrainerCard 
+      id="entrenador@gmail.com"
       name="Hector González" 
       description="La mejor entrenadora del mundo mundial" 
       photo="" 
@@ -52,6 +55,7 @@ const OurenseRunningCoaches =  (
       type="Running"
      />
     <TrainerCard 
+      id="entrenador@gmail.com"
       name="Maria Losada" 
       description="La mejor entrenadora del mundo mundial" 
       photo="" 
@@ -63,6 +67,7 @@ const OurenseRunningCoaches =  (
 
 const OurenseCyclingCoaches =  (
     <TrainerCard 
+      id="entrenador@gmail.com"
       name="Nuria Outeiral" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
@@ -74,6 +79,7 @@ const OurenseCyclingCoaches =  (
 // LUGO
 const LugoRunningCoaches =  (
   <TrainerCard 
+      id="entrenador@gmail.com"
       name="Martin Paz" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
@@ -84,6 +90,7 @@ const LugoRunningCoaches =  (
 
 const LugoCyclingCoaches =  (
     <TrainerCard 
+      id="entrenador@gmail.com"
       name="Martin Paz" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 

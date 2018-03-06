@@ -18,6 +18,7 @@ const FormItem = Form.Item;
 interface LoginProps {
     textStyle: any;
     linkStyle: any;
+    idCoach: boolean;
 }
 interface ApolloProps {
     client: any;
@@ -173,7 +174,16 @@ LoginState > {
                 console.log(data.token.token);
                 localStorage.setItem('token', data.token.token);
                 localStorage.setItem('email', args.email);
-
+                console.log('ENTRA: ' + this.props.idCoach);
+                
+                if (this.props.idCoach !== undefined) {
+                console.log('ENTRA: ' + this.props.idCoach);
+                window.location.href =
+                'http://localhost:3000?email=' + args.email + '&type=COACH&token=' + data.token.token;
+                } else {
+                    window.location.href =
+                    'http://localhost:3000?token=' + data.token.token;
+                }
             } catch (e) {
               onError(e.message);
             }
