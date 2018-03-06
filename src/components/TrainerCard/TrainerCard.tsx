@@ -62,10 +62,11 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
                     footer={null}
                     className="modal-login"
                 >
-                    <Login cardScreen={true}/>
+                  <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} /> 
                 </Modal>
             </div>
         );
     }
 
 }
+

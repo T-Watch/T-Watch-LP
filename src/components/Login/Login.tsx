@@ -10,55 +10,37 @@ import {
 } from 'antd';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { queue } from 'async';
-import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { gql } from 'apollo-boost';
 
 const FormItem = Form.Item;
 
 interface LoginProps {
-    form: any;
-    cardScreen: boolean;
+    textStyle: any;
+    linkStyle: any;
 }
+interface ApolloProps {
+    client: any;
+  }
+
 interface FullLoginProps extends LoginProps {
-    token: Function;
-    email: string;
-    password: string;
+    form: any;
 }
 
 interface LoginState {
     isActive: boolean;
 }
-class Login extends React.Component <FullLoginProps,
+class Login extends React.Component <FullLoginProps & ApolloProps,
 LoginState > {
 
-    constructor(props: FullLoginProps) {
+    constructor(props: FullLoginProps & ApolloProps) {
         super(props);
         this.state = {
             isActive: false
         };
-    }
 
-    handleSubmit = (e: any) => {
-      e.preventDefault();
-      this.props.form.validateFields((err: any, values: any) => {
-        if (!err) {
-            console.log('Usuario: \n', values);
-            this.props.token({
-                variables: {
-                    email: values.email, 
-                    password: values.password
-                } 
-                 
-            })
-            .then(({ data }: any) => {
-                console.log('got data ' + data);
-              }).catch((error: any) => {
-                console.log('there was an error sending the query', error);
-              });
-            // console.log('Received values of form: ', values);
-        }
-        });
     }
+    
     toggleModal = () => {
         this.setState({
             isActive: !this.state.isActive
@@ -66,20 +48,7 @@ LoginState > {
     }
 
     render() {
-        console.log(this.props);
         const {getFieldDecorator} = this.props.form;
-        const cardScreen = this.props.cardScreen;
-        let colorText: string;
-        let colorLink: string;
-        
-        if (cardScreen) {
-            colorText = '#000000';
-            colorLink = '#005cb3';
-        } else {
-            colorLink = '#d9d9d9';
-            colorText = '#FFFFFF';
-
-        }
         return (
             <div>
                 <Form
@@ -122,17 +91,11 @@ LoginState > {
                             valuePropName: 'checked',
                             initialValue: true
                         })(
-                            <Checkbox
-                                style={{
-                                color: colorLink
-                            }}
-                            >Recuerdame
+                            <Checkbox style={this.props.linkStyle}>Recuerdame
                             </Checkbox>
                         )}
                         <a 
-                            style={{
-                            color: colorLink
-                        }}
+                            style={this.props.linkStyle}
                             className="login-form-forgot" 
                             href=""
                         >Olvidé la contraseña
@@ -140,18 +103,12 @@ LoginState > {
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
                         </Button>
-                        <span
-                            style={{
-                            color: colorText
-                        }}
-                        >
+                        <span style={this.props.textStyle}>
                             O si no tienes cuenta&nbsp;
                         </span>
-                        <span
-                            style={{
-                            cursor: 'pointer',
-                            color: colorLink
-                        }}
+                        <span 
+                            className="cursor-link"
+                            style={this.props.linkStyle}
                             onClick={this.toggleModal}
                         >
                         registrate!
@@ -176,9 +133,54 @@ LoginState > {
 
         );
     }
+    handleSubmit = async (e: any) => {
+        e.preventDefault();
+        this.props.form.validateFields((err: any, values: any) => {
+          if (!err) {
+            this.submit(
+              values,
+              (s: string) => {
+                this.props.form.setFields({
+                  email: {
+                    value: values.email,
+                    errors: [new Error(s)],
+                  },
+                  password: {
+                    value: values.password,
+                    errors: [new Error(s)],
+                  },
+                });
+              });
+          }
+        });
+    }
+      
+        submit = async (args: any, onError: Function) => {
+            try {
+                const { data } = await this.props.client.query({
+                    query: gql`query Query($email: String!, $password: String!) {
+                          token(email: $email, password: $password){
+                            error
+                            token
+                          }
+                        }`,
+                    variables: args
+                  });
+        
+                if (data.token.error) {
+                    throw new Error(data.token.error);
+              }
+                console.log(data.token.token);
+                localStorage.setItem('token', data.token.token);
+                localStorage.setItem('email', args.email);
+
+            } catch (e) {
+              onError(e.message);
+            }
+          }
 }
 
-const getToken = gql`
+const GET_TOKEN = gql`
 query Query($email: String!, $password: String!) {
 	token(email: $email, password: $password){
 		error
@@ -188,4 +190,6 @@ query Query($email: String!, $password: String!) {
 `
 ;
 
-export default Form.create()(graphql<{}, FullLoginProps>(getToken, {name: 'token'})(Login as any));
+// export default Form.create()(graphql<{}, FullLoginProps>(GET_TOKEN, {name : 'getToken'})(Login as any));
+
+export default Form.create()(withApollo<FullLoginProps, {}>(Login as any));

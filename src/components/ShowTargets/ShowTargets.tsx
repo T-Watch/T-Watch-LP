@@ -66,8 +66,8 @@ const OurenseCyclingCoaches =  (
       name="Nuria Outeiral" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
-      location="Vigo"
-      type="Running"
+      location="Ourense"
+      type="Cycling"
     />
 );
 
@@ -77,7 +77,7 @@ const LugoRunningCoaches =  (
       name="Martin Paz" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
-      location="Vigo"
+      location="Lugo"
       type="Running"
   />
 );
@@ -87,15 +87,15 @@ const LugoCyclingCoaches =  (
       name="Martin Paz" 
       description="El mejor entrenador del mundo mundial" 
       photo="" 
-      location="Vigo"
-      type="Running"
+      location="Lugo"
+      type="Cycling"
     />
 );
 
-const runners = [VigoRunningCoaches, OurenseRunningCoaches];
-const cyclists = [LugoCyclingCoaches, OurenseCyclingCoaches, VigoCyclingCoaches];
-const coaches = [runners, cyclists];
-let returnTargets = VigoRunningCoaches;
+const runningCoaches = [VigoRunningCoaches, OurenseRunningCoaches];
+const cyclingCoaches = [LugoCyclingCoaches, OurenseCyclingCoaches, VigoCyclingCoaches];
+const coaches = [runningCoaches, cyclingCoaches];
+let returnTargets: any = null;
 
 class ShowTargets extends React.Component  <ShowCardsProps, ShowCardsState > {
   constructor(props: ShowCardsProps) {
@@ -105,7 +105,6 @@ class ShowTargets extends React.Component  <ShowCardsProps, ShowCardsState > {
         item: this.props.item
     };
     console.log(this.state.submenu + ' ' + this.state.item);
-    this.targets();
 }
 
 targets = () => {
@@ -114,33 +113,41 @@ targets = () => {
   console.log('submenu ' + submenu + ' item ' + item);
   if (submenu === 'Running') {
     if (item === 'Vigo') {
+      returnTargets = VigoRunningCoaches;
       console.log('Vigo Running');
     } else if (item === 'Ourense') {
+      returnTargets = OurenseRunningCoaches;
       console.log('Ourense Running');
     } else if (item === 'Lugo') {
+      returnTargets = LugoRunningCoaches;
       console.log('Lugo Running');
     } else {
-      console.log('Running');
-      
+      returnTargets = runningCoaches;
+      console.log('Running'); 
    }
   } else if (submenu === 'Cycling') {
     if (item === 'Vigo') {
+      returnTargets = VigoCyclingCoaches;
       console.log('Vigo Cycling');
       } else if (item === 'Ourense') {
-        console.log('Ourense Cycling');  
+      returnTargets = OurenseCyclingCoaches;
+      console.log('Ourense Cycling**');  
       } else if (item === 'Lugo') {
+      returnTargets = LugoCyclingCoaches;
       console.log('Lugo Cycling');
       } else {
+      returnTargets = cyclingCoaches;
       console.log(' Cycling');
         
      }  
   } else {
+    returnTargets = coaches;
     console.log('todos');
-    
   }
 }
 
   render() {
+    this.targets();
     return (
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
       {returnTargets}
