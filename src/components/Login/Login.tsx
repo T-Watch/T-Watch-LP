@@ -51,7 +51,7 @@ LoginState > {
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <div>
+            <div >
                 <Form
                     onSubmit={this.handleSubmit}
                     className="login-form"

@@ -24,7 +24,7 @@ render() {
                 </Col>
             </Row>
             <Row>
-                <GetCoachesCards/>
+                {/*<GetCoachesCards/>*/}
             </Row>
         
         </div>

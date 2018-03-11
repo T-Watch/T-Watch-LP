@@ -7,13 +7,6 @@
 .login-form-button {
     width: 100%;
 }
-
-.login-component {
-    position: absolute;
-    top: 30%;
-    right: 5%;
-}
-
 .cursor-link{ 
     cursor: pointer
 }

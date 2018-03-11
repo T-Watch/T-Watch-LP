@@ -4,8 +4,9 @@ import React from 'react';
 import { AutoComplete, Input, Button, Icon, Select } from 'antd';
 import './Search.css';
 const Option = AutoComplete.Option;
+const OptGroup = AutoComplete.OptGroup;
 
-const dataBase = [{
+const dataBase =  [{
   id: 'maria',
   name: 'maria',
   location: 'Ourense'
@@ -15,68 +16,49 @@ const dataBase = [{
   name: 'nuria',
   location: 'Coruña'
 },
-,
 {
   id: 'brais',
   name: 'brais',
   location: 'Coruña'
 },
-,
 {
   id: 'martin',
   name: 'martin',
   location: 'Ourense'
 },
-
 ];
-function onSelect(value: any) {
-  
-  console.log('onSelect', value);
+
+interface SearchState {
+  dataSource: object[];
 }
-function getRandomInt(max: number, min: number = 0) {
-  return Math.floor(Math.random() * (max - min + 1)) + min; // eslint-disable-line no-mixed-operators
+interface SearchProps {
+  onSearchResult: Function;
 }
-function searchResult(query: string) {
+
+function searchResult(query: string, dataSource: any) {
   const result = [];
-  let locationIsAdded = false;
   query = query.toLowerCase();
   for (let x of dataBase) {
     if (x !== undefined) {
-      if  (x.name.toLowerCase().startsWith(query)) {
+      if (x.name.toLowerCase().startsWith(query)) {
         result.push(x);
-      }
-      if (x.location.toLowerCase().startsWith(query) && !locationIsAdded) {
-        result.push(x);
-        locationIsAdded = true;
       }
     }
    
   }
-  console.log(result);
-
   return result;
-}
-
-function renderOptionLocation(item: any) {
-return(
-
-      <Option key={item.location} value={item.location}>
-        {item.location}
-      </Option>
-);
 }
 
 function renderOptionName(item: any) {
   return(
   
-        <Option key={item.name} value={item.name}>
-          {item.name}
-        </Option>
+     item.name
   );
   }
-export default class Search extends React.Component { // cuadro azul
+export default class Search extends React.Component<SearchProps,
+SearchState> { 
 
-  constructor(props: any) {
+  constructor(props: SearchProps) {
     super(props);
     this.state = {
         dataSource: [{
@@ -89,25 +71,43 @@ export default class Search extends React.Component { // cuadro azul
           name: 'nuria',
           location: 'Coruña'
         },
+        {
+          id: 'brais',
+          name: 'brais',
+          location: 'Coruña'
+        },
+        {
+          id: 'martin',
+          name: 'martin',
+          location: 'Ourense'
+        },
+
       ],
     };
   }
+
+  onSelect = (value: any) => {  
+    console.log('onSelect', value);
+    this.props.onSearchResult(value);
+  }
+
   handleSearch = (value: any) => {
-    console.log(value);
+    const dataSource = this.state.dataSource;
     this.setState({
-      dataSource: value !== undefined ? searchResult(value) : [],
+      dataSource:  searchResult(value, dataSource),
     });
   }
   render() {
-    const  {dataSource}  = this.state;
+
+    const dataSource = this.state.dataSource;
     return (
       <div className="global-search-wrapper" style={{ width: 300 }}>
         <AutoComplete
             className="global-search"
             size="large"
             style={{ width: '100%' }}
-            dataSource={dataSource.map(renderOptionLocation).concat(dataSource.map(renderOptionName))}
-            onSelect={onSelect}
+            dataSource={(dataSource).map(renderOptionName)}
+            onSelect={this.onSelect}
             onSearch={this.handleSearch}
             placeholder="input here"
             optionLabelProp="text"

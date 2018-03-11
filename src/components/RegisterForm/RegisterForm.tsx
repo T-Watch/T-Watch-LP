@@ -272,7 +272,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     })(<Input />)}
                 </FormItem>
                 {/*<FormItem {...formItemLayout} label="Domicilio">
-                    {getFieldDecorator('address-street-number', {
+                    {getFieldDecorator('address', {
                         rules: [
                             {
                                 required: true,
@@ -432,19 +432,19 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(
                         <RadioGroup>
-                            <Radio value="Basic">Basic&nbsp;
+                            <Radio value="basico">Basic&nbsp;
                             <Tooltip title="Entrenamiento online">
                               <Icon type="question-circle-o" />
                             </Tooltip>
                           </Radio>
                           <br/>
-                            <Radio value="Standard">Standard&nbsp;
+                            <Radio value="standard">Standard&nbsp;
                             <Tooltip title="Basic + quedadas con tu entrenador">
                               <Icon type="question-circle-o" />
                             </Tooltip>
                           </Radio>    
                           <br/>                                                  
-                            <Radio value="Premium">Premium&nbsp;
+                            <Radio value="premium">Premium&nbsp;
                             <Tooltip title="Standard + test físico inicial en un centro cercano al usuario">
                               <Icon type="question-circle-o" />
                             </Tooltip>
@@ -454,19 +454,21 @@ class RegisterForm extends React.Component<FullRegisterProps,
                 </FormItem>
 
         </div>
-        : null}
+        : 
         <div>
-          <FormItem {...formItemLayout} label="Especialidad">
-                    {getFieldDecorator('Fields', {
-                        initialValue: ['Running'],
-                        rules: [{
-                            required: true
-                        }]
-                        
-                    })(    <CheckboxGroup options={optionsSpecialities} />
-                )}
-            </FormItem>
-            </div>  
+        <FormItem {...formItemLayout} label="Especialidad">
+        {getFieldDecorator('fields', {
+            initialValue: ['Running'],
+            rules: [{
+                required: true
+            }]
+            
+        })(    <CheckboxGroup options={optionsSpecialities} />
+    )}
+        </FormItem>
+        </div>  
+        }
+          
                 {/*<FormItem {...tailFormItemLayout}>
                     {getFieldDecorator('agreement', {valuePropName: 'checked'})(
                         <Checkbox>I have read the &nbsp;
