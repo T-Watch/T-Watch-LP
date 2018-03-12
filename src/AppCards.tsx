@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Layout, Menu, Breadcrumb, Icon, Checkbox, Select } from 'antd';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 import './App.css';
 import Search from './components/Search/Search';
 import ShowTargets from './components/ShowTargets/ShowTargets';
@@ -10,47 +8,99 @@ import TrainerCard from './components/TrainerCard/TrainerCard';
 const { Header, Content, Footer, Sider } = Layout;
 const  SubMenu  = Menu.SubMenu; 
 const Option = Select.Option;
+import { withApollo } from 'react-apollo';
+import { gql } from 'apollo-boost';
 
 interface AppCardsState {
   submenu: string;
   item: string;
+  fields: string[];
+  coaches: object[];
 }
 
-class AppCards extends React.Component  <any, AppCardsState > {
-  constructor(props: any) {
+interface ApolloProps {
+  client: any;
+}
+
+class AppCards extends React.Component  <ApolloProps , AppCardsState > {
+  constructor(props: ApolloProps ) {
     super(props);
     this.state = {
         submenu: '',
-        item: ''
+        item: '',
+        fields: [],
+        coaches: []
     };
-}
-setSubmenu = (submenu: string) => {
-  console.log(submenu);
-  this.setState({
-      submenu: submenu
-      });
-}
-
-setItem = (item: string) => {
-  this.setState({
-      item: item
-      });
 }
 handleClick = (e: any) => {
   console.log('click ', e.keyPath);
-  this.setItem(e.key);
-  this.setSubmenu(e.keyPath[1]);
 }
 
 handleAddress = (value: any) => {
   console.log(`selected ${value}`);
 }
 
-onChangeRunning = (e: any) => {
-  console.log(`checked = ${e.target.checked}`);
+_createLink = async () => {
+  const fields = this.state.fields;
+  console.log('olas' + fields);
+  try {
+  const { data } = await this.props.client.query({
+    query: gql`
+    query Query($fields: [String]) {
+      coaches(fields: $fields){
+        email,
+        name
+      }
+    }`,
+    variables: fields
+  });
+  this.setState({
+    coaches: data.coaches
+    });
+  console.log(this.state.coaches);
+
+} catch (e) {
+  console.log(e.message);
 }
+
+}
+onChangeRunning = (e: any) => {
+  console.log(`${e.target.checked}`);
+  if (e.target.checked === true) {
+    var arrayvar = this.state.fields;
+    arrayvar.push('running');
+    this.setState({
+      fields: arrayvar
+      });
+   } else {
+      var array = this.state.fields;
+      var index = array.indexOf('running');
+      array.splice(index, 1);
+      this.setState({fields: array });
+    }
+  this._createLink();
+  console.log(this.state.fields);
+}
+  
+  // const fields = this.state.fields;
+// this._createLink();
+
 onChangeCycling = (e: any) => {
-  console.log(`checked = ${e.target.checked}`);
+  console.log(`${e.target.checked}`);
+  if (e.target.checked === true) {
+    var arrayvar = this.state.fields;
+    arrayvar.push('cycling');
+    this.setState({
+      fields: arrayvar
+      });
+   } else {
+      var array = this.state.fields;
+      var index = array.indexOf('cycling');
+      array.splice(index, 1);
+      this.setState({fields: array });
+    }
+  this._createLink();
+  console.log(this.state.fields);
 }
 
 onSearch = (e: any) => {
@@ -99,8 +149,7 @@ onSearch = (e: any) => {
 
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
       <ShowTargets 
-        item={this.state.item} 
-        submenu={this.state.submenu}
+        coaches={this.state.coaches} 
       /> {/*https://reactjs.org/docs/conditional-rendering.html*/}
       </div>
     </Content>
@@ -112,4 +161,5 @@ onSearch = (e: any) => {
     );
   }
 }
-export default AppCards;
+
+export default withApollo<{}, {}>(AppCards as any);

@@ -9,12 +9,10 @@ const { Header, Content, Footer } = Layout;
 const  SubMenu  = Menu.SubMenu; 
 
 interface ShowCardsState {
-  submenu: string;
-  item: string;
+  coaches: object[];
 }
 interface ShowCardsProps {
-  submenu: string;
-  item: string;
+  coaches: object[];
 }
 
 // VIGO
@@ -108,58 +106,26 @@ class ShowTargets extends React.Component  <ShowCardsProps, ShowCardsState > {
   constructor(props: ShowCardsProps) {
     super(props);
     this.state = {
-        submenu: this.props.submenu,
-        item: this.props.item
+        coaches: this.props.coaches,
     };
-    console.log(this.state.submenu + ' ' + this.state.item);
 }
-
 targets = () => {
-  const item = this.props.item;
-  const submenu = this.props.submenu;
-  console.log('submenu ' + submenu + ' item ' + item);
-  if (submenu === 'Running') {
-    if (item === 'Vigo') {
-      returnTargets = VigoRunningCoaches;
-      console.log('Vigo Running');
-    } else if (item === 'Ourense') {
-      returnTargets = OurenseRunningCoaches;
-      console.log('Ourense Running');
-    } else if (item === 'Lugo') {
-      returnTargets = LugoRunningCoaches;
-      console.log('Lugo Running');
-    } else {
-      returnTargets = runningCoaches;
-      console.log('Running'); 
-   }
-  } else if (submenu === 'Cycling') {
-    if (item === 'Vigo') {
-      returnTargets = VigoCyclingCoaches;
-      console.log('Vigo Cycling');
-      } else if (item === 'Ourense') {
-      returnTargets = OurenseCyclingCoaches;
-      console.log('Ourense Cycling**');  
-      } else if (item === 'Lugo') {
-      returnTargets = LugoCyclingCoaches;
-      console.log('Lugo Cycling');
-      } else {
-      returnTargets = cyclingCoaches;
-      console.log(' Cycling');
-        
-     }  
-  } else {
-    returnTargets = coaches;
-    console.log('todos');
-  }
+  this.setState({
+    coaches: this.props.coaches
+    });  
 }
-
   render() {
-    this.targets();
+    // this.targets();
+    
+   
+
     return (
-      <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
-      {returnTargets}
-      </div>
+     <ul style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+     {this.props.coaches.map(function(coach: any, i: any) {
+       return <TrainerCard name={coach.name} description={coach.email}/>;
+     })}
+   </ul>
     );
   }
-}
+  }
 export default ShowTargets;

@@ -423,7 +423,8 @@ class RegisterForm extends React.Component<FullRegisterProps,
             </FormItem>
 
             <FormItem {...formItemLayout} label="Plan de suscripción">
-                    {getFieldDecorator('plan', {
+                    {getFieldDecorator('plan.plan', {
+                        initialValue: 'BASIC',
                         rules: [
                             {
                                 required: true,
@@ -432,24 +433,39 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(
                         <RadioGroup>
-                            <Radio value="basico">Basic&nbsp;
+                            <Radio value="BASIC">Basic&nbsp;
                             <Tooltip title="Entrenamiento online">
                               <Icon type="question-circle-o" />
                             </Tooltip>
                           </Radio>
                           <br/>
-                            <Radio value="standard">Standard&nbsp;
+                            <Radio value="STANDAR">Standar&nbsp;
                             <Tooltip title="Basic + quedadas con tu entrenador">
                               <Icon type="question-circle-o" />
                             </Tooltip>
                           </Radio>    
                           <br/>                                                  
-                            <Radio value="premium">Premium&nbsp;
+                            <Radio value="PREMIUM">Premium&nbsp;
                             <Tooltip title="Standard + test físico inicial en un centro cercano al usuario">
                               <Icon type="question-circle-o" />
                             </Tooltip>
                           </Radio>  
                         </RadioGroup>
+                    )}
+                </FormItem>
+                <FormItem {...formItemLayout} label="Fecha de vencimiento">
+                    {getFieldDecorator('plan.dueDate', {
+                        rules: [
+                            {
+                                type: 'object',
+                                required: true,
+                                message: 'Por favor, introduce tu fecha de vencimiento del plan'
+                            }
+                        ]
+                    }
+                    )(<DatePicker
+                        disabledDate={disabledDate}
+                    />
                     )}
                 </FormItem>
 

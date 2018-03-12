@@ -9,7 +9,7 @@ interface TrainerCardProps {
     photo: string;
     location: string;
     type: string;  
-    id: string;  
+    email: string;  
 }
 
 interface TrainerCardState {
@@ -19,13 +19,13 @@ interface TrainerCardState {
     isActive: boolean;
     location: string;
     type: string;
-    id: string;
+    email: string;
 }
 export default class TrainerCard extends React.Component <TrainerCardProps, TrainerCardState > {
     constructor(props: TrainerCardProps) {
         super(props);
         this.state = {
-            id: this.props.id,
+            email: this.props.email,
             name: this.props.name,
             description: this.props.description,
             photo: this.props.photo,

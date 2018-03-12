@@ -9,7 +9,6 @@ import {
     Modal
 } from 'antd';
 import RegisterForm from '../RegisterForm/RegisterForm';
-import { queue } from 'async';
 import { withApollo } from 'react-apollo';
 import { gql } from 'apollo-boost';
 
@@ -22,7 +21,7 @@ interface LoginProps {
 }
 interface ApolloProps {
     client: any;
-  }
+}
 
 interface FullLoginProps extends LoginProps {
     form: any;
