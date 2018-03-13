@@ -1,15 +1,14 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Layout, Menu, Breadcrumb, Icon, Checkbox, Select } from 'antd';
+import { Layout, Menu, Icon, Checkbox, Select } from 'antd';
 import './App.css';
 import Search from './components/Search/Search';
 import ShowTargets from './components/ShowTargets/ShowTargets';
-import TrainerCard from './components/TrainerCard/TrainerCard';
-const { Header, Content, Footer, Sider } = Layout;
-const  SubMenu  = Menu.SubMenu; 
+const {  Content, Footer } = Layout;
 const Option = Select.Option;
 import { withApollo } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import App from './App';
 
 interface AppCardsState {
   submenu: string;
@@ -31,29 +30,26 @@ class AppCards extends React.Component  <ApolloProps , AppCardsState > {
         fields: [],
         coaches: []
     };
+    this.initCoaches();
 }
 handleClick = (e: any) => {
   console.log('click ', e.keyPath);
 }
-
 handleAddress = (value: any) => {
   console.log(`selected ${value}`);
 }
 
-_createLink = async () => {
+initCoaches = async () => {
   const fields = this.state.fields;
-  console.log('olas' + fields);
   try {
   const { data } = await this.props.client.query({
     query: gql`
-    query Query($fields: [String]) {
-      coaches(fields: $fields){
-        email,
+    query Query{
+      coaches{
+        email
         name
       }
-    }`,
-    variables: fields
-  });
+    }`  });
   this.setState({
     coaches: data.coaches
     });
@@ -64,21 +60,54 @@ _createLink = async () => {
 }
 
 }
+_createLink = async () => {
+  const fields = this.state.fields;
+  try {
+  const { data } = await this.props.client.query({
+    query: gql`
+    query Query($fields: [String]) {
+      coaches(fields: $fields){
+        email
+        name
+      }
+    }`,
+    variables: {fields}
+  });
+  this.setState({
+    coaches: data.coaches
+    });
+  console.log(fields);
+  console.log(data.coaches);
+} catch (e) {
+  console.log(e.message);
+}
+
+}
 onChangeRunning = (e: any) => {
   console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
-    arrayvar.push('running');
+    arrayvar.push('Running');
     this.setState({
       fields: arrayvar
       });
-   } else {
+    this._createLink();
+    } else {
       var array = this.state.fields;
-      var index = array.indexOf('running');
+      var index = array.indexOf('Running');
       array.splice(index, 1);
       this.setState({fields: array });
+      console.log('esta vacio? running' + array);
+
+      if (array === undefined || array.length === 0) {
+        console.log('si');
+
+        this.initCoaches();
+    } else {
+      this._createLink();
+        
+      }
     }
-  this._createLink();
   console.log(this.state.fields);
 }
   
@@ -89,17 +118,26 @@ onChangeCycling = (e: any) => {
   console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
-    arrayvar.push('cycling');
+    arrayvar.push('Cycling');
     this.setState({
       fields: arrayvar
       });
-   } else {
+    this._createLink();
+    } else {
       var array = this.state.fields;
-      var index = array.indexOf('cycling');
+      var index = array.indexOf('Cycling');
       array.splice(index, 1);
       this.setState({fields: array });
+      console.log('esta vacio? cycling' + array);
+      if (array === undefined || array.length === 0) {
+        console.log('si');        
+        this.initCoaches();
+    } else {
+    this._createLink();
+      
     }
-  this._createLink();
+
+    }
   console.log(this.state.fields);
 }
 
@@ -107,17 +145,21 @@ onSearch = (e: any) => {
   console.log(e);
 }
 
-  render() {
-    return (
-      <div>
-<Layout className="layout">
-  <Header>
+cards = () => (
+  <div>
       <Menu
-        theme="dark"
+        defaultSelectedKeys={['home']}
+        defaultOpenKeys={['home']}
         mode="horizontal"
-        defaultSelectedKeys={['2']}
-        style={{ lineHeight: '54px' }}
+        theme="dark"
+        inlineCollapsed={false}
       >
+      <Menu.Item key="home">
+             <Link to="/"><Icon type="home" /></Link>
+         </Menu.Item>
+         <Menu.Item key="team">
+             <Link to="/coaches"><Icon type="team" /></Link>
+         </Menu.Item>
         <Menu.Item key="running" >
          <Checkbox style={{color: 'white'}} onChange={this.onChangeRunning}>Running</Checkbox>
         </Menu.Item>
@@ -125,7 +167,7 @@ onSearch = (e: any) => {
            <Checkbox style={{color: 'white'}} onChange={this.onChangeCycling}>Cycling</Checkbox>
         </Menu.Item>
         <Menu.Item key="address" >
-          <Select defaultValue="Vigo"  style={{ width: 120 }} onChange={this.handleAddress}>
+          <Select defaultValue="Pontevedra"  style={{ width: 120 }} onChange={this.handleAddress}>
             <Option value="A Coruña">A Coruña</Option>
             <Option value="Álava">Álava</Option>
             <Option value="Albacete">Albacete</Option>
@@ -143,11 +185,12 @@ onSearch = (e: any) => {
          <Search onSearchResult={this.onSearch} /> 
        </Menu.Item>
       </Menu>
-    </Header>
-
     <Content style={{ padding: '0 50px' }}>
 
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
+      {console.log('render')}
+
+      {console.log(this.state.coaches)}
       <ShowTargets 
         coaches={this.state.coaches} 
       /> {/*https://reactjs.org/docs/conditional-rendering.html*/}
@@ -156,8 +199,18 @@ onSearch = (e: any) => {
     <Footer style={{ textAlign: 'center' }}>
     T-Watch ©2018 Created by mlousada
     </Footer>
-  </Layout>
-      </div> 
+  </div>
+)
+  render() {
+    return (
+      <Router>
+      <div> 
+    <div>
+      <Route exact={true} path="/" component={App} />
+      <Route path="/coaches" component={this.cards} />
+    </div>
+</div> 
+  </Router> 
     );
   }
 }

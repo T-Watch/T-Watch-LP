@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Modal, Icon } from 'antd';
-import './TrainerCard.css';
+import './CoachCard.css';
 import Login from '../Login/Login';
 
-interface TrainerCardProps {
+interface CoachCardProps {
     name: string;
     description: string;
     photo: string;
@@ -12,7 +12,7 @@ interface TrainerCardProps {
     email: string;  
 }
 
-interface TrainerCardState {
+interface CoachCardState {
     name: string;
     description: string;
     photo: string;
@@ -21,8 +21,8 @@ interface TrainerCardState {
     type: string;
     email: string;
 }
-export default class TrainerCard extends React.Component <TrainerCardProps, TrainerCardState > {
-    constructor(props: TrainerCardProps) {
+export default class TrainerCard extends React.Component <CoachCardProps, CoachCardState > {
+    constructor(props: CoachCardProps) {
         super(props);
         this.state = {
             email: this.props.email,
@@ -65,7 +65,8 @@ export default class TrainerCard extends React.Component <TrainerCardProps, Trai
                     footer={null}
                     className="modal-login"
                 >
-                  <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} idCoach={this.props.id} /> 
+                {console.log(this.props.email)}
+                  <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} idCoach={this.props.email} /> 
                 </Modal>
             </div>
         );

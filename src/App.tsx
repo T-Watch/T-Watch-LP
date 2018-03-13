@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Layout, } from 'antd';
+import { Layout, Icon, Menu } from 'antd';
 const {  Footer, Content } = Layout;
 import './App.css';
 import PageTitle from './components/PageTitle/PageTitle';
@@ -9,13 +9,26 @@ import Levels from './components/Levels/Levels';
 import Separator from './components/Separator/Separator';
 import WhatIs from './components/WhatIs/WhatIs';
 import ContactUs from './components/ContactUs/ContactUs';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import AppCards from './AppCards';
 
-class App extends React.Component {
-
-  render() {
-    return (
-      <div>
-    <Layout>
+const Home = () => (
+<div>
+<Menu
+       defaultSelectedKeys={['home']}
+       defaultOpenKeys={['home']}
+       mode="horizontal"
+       theme="dark"
+       inlineCollapsed={false}
+>
+         <Menu.Item key="home">
+             <Link to="/"><Icon type="home" /></Link>
+         </Menu.Item>
+         <Menu.Item key="team">
+             <Link to="/coaches"><Icon type="team" /></Link>
+         </Menu.Item>
+</Menu>
+      <Layout>
         <Content style={{background: '#ffff', padding: 0, minHeight: 700 }}>
         <BackgroundImage /> 
         <PageTitle /> 
@@ -31,8 +44,18 @@ class App extends React.Component {
       T-Watch ©2018 Created by mlousada
     </Footer>    
     </Layout>
-
-  </div>
+</div>
+);
+class App extends React.Component {
+  
+  render() {
+    return (
+      <Router>
+      <div>  
+      <Route exact={true} path="/" component={Home} />
+      <Route path="/coaches" component={AppCards} />
+    </div>
+  </Router> 
      
     );
   }

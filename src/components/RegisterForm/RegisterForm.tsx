@@ -422,7 +422,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     })(<Input />)}
             </FormItem>
 
-            <FormItem {...formItemLayout} label="Plan de suscripción">
+            {/*<FormItem {...formItemLayout} label="Plan de suscripción">
                     {getFieldDecorator('plan.plan', {
                         initialValue: 'BASIC',
                         rules: [
@@ -467,7 +467,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         disabledDate={disabledDate}
                     />
                     )}
-                </FormItem>
+                </FormItem>*/}
 
         </div>
         : 
