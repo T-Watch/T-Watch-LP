@@ -271,18 +271,18 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(<Input />)}
                 </FormItem>
-                {/*<FormItem {...formItemLayout} label="Domicilio">
-                    {getFieldDecorator('address', {
+                <FormItem {...formItemLayout} label="Localidad">
+                    {getFieldDecorator('district', {
                         rules: [
                             {
                                 required: true,
-                                message: 'Por favor, introduce tu dirección (Calle, Número)'
+                                message: 'Por favor, introduce tu localidad'
                             }
                         ]
                     })(<Input />)}
-                </FormItem>*/}
+                </FormItem>
                 <FormItem {...formItemLayout} label="Provincia">
-                    {getFieldDecorator('address', {
+                    {getFieldDecorator('province', {
                         initialValue: 'Pontevedra',
                         rules: [
                             {
@@ -502,7 +502,10 @@ class RegisterForm extends React.Component<FullRegisterProps,
 
 const submitRepository = gql`
 mutation Mutation($user: UserInput!){
-    user(input: $user) 
+    user(input: $user){
+        email,
+        name
+    } 
 }
 `;
 

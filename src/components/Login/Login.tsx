@@ -178,10 +178,10 @@ LoginState > {
                 if (this.props.idCoach !== undefined) {
                 console.log('ENTRA: ' + this.props.idCoach);
                 window.location.href =
-                'http://localhost:3000/coaches?email=' + args.email + '&type=COACH&token=' + data.token.token;
+                'http://localhost:3005/coaches?email=' + args.email + '&type=COACH&token=' + data.token.token;
                 } else {
                     window.location.href =
-                    'http://localhost:3000?token=' + data.token.token;
+                    'http://localhost:3005?token=' + data.token.token;
                 }
             } catch (e) {
               onError(e.message);

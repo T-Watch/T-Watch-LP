@@ -12,7 +12,7 @@ interface GetCoachesState {
 }
 
 const client = new ApolloClient({
-    uri: 'http://localhost:3000/graphql'
+    uri: 'http://localhost:3005/graphql'
    }); 
 
 export default class GetCoachesCards extends React.Component <any,

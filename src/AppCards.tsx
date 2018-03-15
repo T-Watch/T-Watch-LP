@@ -11,8 +11,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import App from './App';
 
 interface AppCardsState {
-  submenu: string;
-  item: string;
+  province: string;
+  search: string;
   fields: string[];
   coaches: object[];
 }
@@ -25,22 +25,15 @@ class AppCards extends React.Component  <ApolloProps , AppCardsState > {
   constructor(props: ApolloProps ) {
     super(props);
     this.state = {
-        submenu: '',
-        item: '',
+        province: '',
+        search: '',
         fields: [],
         coaches: []
     };
     this.initCoaches();
 }
-handleClick = (e: any) => {
-  console.log('click ', e.keyPath);
-}
-handleAddress = (value: any) => {
-  console.log(`selected ${value}`);
-}
 
 initCoaches = async () => {
-  const fields = this.state.fields;
   try {
   const { data } = await this.props.client.query({
     query: gql`
@@ -50,101 +43,281 @@ initCoaches = async () => {
         name
       }
     }`  });
+    
   this.setState({
     coaches: data.coaches
     });
-  console.log(this.state.coaches);
-
 } catch (e) {
   console.log(e.message);
 }
 
 }
-_createLink = async () => {
+
+queryFieldsProvinceSearch = async() => {
   const fields = this.state.fields;
+  const province = this.state.province;
+  const search = this.state.search;  
   try {
-  const { data } = await this.props.client.query({
-    query: gql`
-    query Query($fields: [String]) {
-      coaches(fields: $fields){
-        email
-        name
-      }
-    }`,
-    variables: {fields}
-  });
-  this.setState({
-    coaches: data.coaches
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($fields: [String], $province: String, $search: String) {
+        coaches(fields: $fields, province: $province, search: $search){
+          email
+          name
+        }
+      }`,
+      variables: {fields, province, search}
     });
+  
+    console.log(data.coaches);
+    console.log('****');
+  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+queryProvinceFields = async() => {
+  const fields = this.state.fields;
+  const province = this.state.province;
+  
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($province: String, $fields: [String]) {
+        coaches(province: $province, fields: $fields){
+          email
+          name
+        }
+      }`,
+      variables: {province, fields}
+    });  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+querySearchFields = async() => {
+  const fields = this.state.fields;
+  const search = this.state.search;
+  
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($search: String, $fields: [String]) {
+        coaches(search: $search, fields: $fields){
+          email
+          name
+        }
+      }`,
+      variables: {search, fields}
+    });  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+queryProvinceSearch = async() => {
+  const province = this.state.province;
+  const search = this.state.search;
+  
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($province: String, $search: String) {
+        coaches(province: $province, search: $search){
+          email
+          name
+        }
+      }`,
+      variables: {province, search}
+    });
+  
+    console.log(data.coaches);
+  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+queryFields = async() => {
+  const fields = this.state.fields;
+  console.log('****');
   console.log(fields);
-  console.log(data.coaches);
-} catch (e) {
-  console.log(e.message);
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($fields: [String]) {
+        coaches(fields: $fields){
+          email
+          name
+        }
+      }`,
+      variables: {fields}
+    });
+    this.setState({
+      coaches: data.coaches
+      });
+
+    console.log(data.coaches);
+    console.log('****');  
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
+queryProvince = async() => {
+  const province = this.state.province;
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($province: String) {
+        coaches(province: $province){
+          email
+          name
+        }
+      }`,
+      variables: {province}
+    });
+  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
 }
+
+querySearch = async() => {
+  const search = this.state.search;
+  try {
+    const { data } = await this.props.client.query({
+      query: gql`
+      query Query($search: String) {
+        coaches(search: $search){
+          email
+          name
+          fields
+        }
+      }`,
+      variables: {search}
+    });  
+    this.setState({
+      coaches: data.coaches
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
 onChangeRunning = (e: any) => {
   console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
     arrayvar.push('Running');
-    this.setState({
-      fields: arrayvar
-      });
-    this._createLink();
-    } else {
+    this.setState({ fields: arrayvar},
+                  () => this.handleFields(true));
+
+  } else {
       var array = this.state.fields;
       var index = array.indexOf('Running');
       array.splice(index, 1);
       this.setState({fields: array });
-      console.log('esta vacio? running' + array);
-
       if (array === undefined || array.length === 0) {
-        console.log('si');
-
-        this.initCoaches();
-    } else {
-      this._createLink();
-        
+        console.log('ningun field seleccionado');
+        this.handleFields(false);
+      } else {
+      this.handleFields(true);
       }
     }
-  console.log(this.state.fields);
 }
   
-  // const fields = this.state.fields;
-// this._createLink();
-
 onChangeCycling = (e: any) => {
   console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
     arrayvar.push('Cycling');
-    this.setState({
-      fields: arrayvar
-      });
-    this._createLink();
+    this.setState({ fields: arrayvar},
+                  () => this.handleFields(true));
     } else {
       var array = this.state.fields;
       var index = array.indexOf('Cycling');
       array.splice(index, 1);
       this.setState({fields: array });
-      console.log('esta vacio? cycling' + array);
       if (array === undefined || array.length === 0) {
-        console.log('si');        
-        this.initCoaches();
+        this.handleFields(false);
+      } else {
+      this.handleFields(true);
+      }
+    }
+}
+
+handleSearch = (search: any) => {
+  console.log('search ' + search);
+  if ((this.state.province).length !== 0 && (this.state.fields).length !== 0) {
+    this.setState({search: search},
+                  () => this.queryFieldsProvinceSearch());
+  } else if ((this.state.province).length !== 0) {
+    this.setState({search: search},
+                  () => this.queryProvinceSearch());    
+  } else if ((this.state.fields).length !== 0) {
+    this.setState({search: search},
+                  () => this.querySearchFields()); 
+  } else {
+    this.setState({search: search},
+                  () => this.querySearch()); 
+  }
+
+}
+handleProvince = async(value: any) => {
+  console.log(`selected ${value}`);
+  const province = value;
+  if ((this.state.search).length !== 0 && (this.state.fields).length !== 0) {
+    this.setState({province: province},
+                  () => this.queryFieldsProvinceSearch());
+  } else if ((this.state.search).length !== 0) {
+    this.setState({province: province},
+                  () => this.queryProvinceSearch());    
+  } else if ((this.state.fields).length !== 0) {
+    this.setState({province: province},
+                  () => this.queryProvinceFields()); 
+  } else {
+    this.setState({province: province},
+                  () => this.queryProvince()); 
+  }
+}
+
+handleFields = async (select: boolean) => {
+  if (select) {
+    if ((this.state.search).length !== 0 && (this.state.province).length !== 0) {
+      this.queryFieldsProvinceSearch();
+    } else if ((this.state.search).length !== 0) {
+      this.querySearchFields();   
+    } else if ((this.state.province).length !== 0) {
+      this.queryProvinceFields(); 
     } else {
-    this._createLink();
-      
+      this.queryFields(); 
     }
-
+  } else {
+    if ((this.state.search).length !== 0 && (this.state.province).length !== 0) {
+      this.queryProvinceSearch();
+    } else if ((this.state.search).length !== 0) {
+      this.querySearch();   
+    } else if ((this.state.province).length !== 0) {
+      this.queryProvince(); 
+    } else {
+      this.initCoaches();
     }
-  console.log(this.state.fields);
+  }
 }
-
-onSearch = (e: any) => {
-  console.log(e);
-}
-
 cards = () => (
   <div>
       <Menu
@@ -166,8 +339,8 @@ cards = () => (
         <Menu.Item key="cycling" >   
            <Checkbox style={{color: 'white'}} onChange={this.onChangeCycling}>Cycling</Checkbox>
         </Menu.Item>
-        <Menu.Item key="address" >
-          <Select defaultValue="Pontevedra"  style={{ width: 120 }} onChange={this.handleAddress}>
+        <Menu.Item key="province" >
+          <Select defaultValue="Todos"  style={{ width: 120 }} onChange={this.handleProvince}>
             <Option value="A Coruña">A Coruña</Option>
             <Option value="Álava">Álava</Option>
             <Option value="Albacete">Albacete</Option>
@@ -177,20 +350,18 @@ cards = () => (
             <Option value="Badajoz">Badajoz</Option>
             <Option value="Islas Baleares">Islas Baleares</Option>
             <Option value="Lugo">Lugo</Option>                        
-            <Option value="Pontevedra">Pontevedra</Option>
             <Option value="Ourense">Ourense</Option> 
+            <Option value="Pontevedra">Pontevedra</Option>
+            <Option value="Todos">--Todos--</Option>
           </Select>
         </Menu.Item>
         <Menu.Item key="search" >
-         <Search onSearchResult={this.onSearch} /> 
+         <Search onSearchResult={this.handleSearch} /> 
        </Menu.Item>
       </Menu>
     <Content style={{ padding: '0 50px' }}>
 
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}> 
-      {console.log('render')}
-
-      {console.log(this.state.coaches)}
       <ShowTargets 
         coaches={this.state.coaches} 
       /> {/*https://reactjs.org/docs/conditional-rendering.html*/}

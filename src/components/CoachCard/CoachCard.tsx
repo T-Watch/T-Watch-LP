@@ -10,6 +10,7 @@ interface CoachCardProps {
     location: string;
     type: string;  
     email: string;  
+    fields: string[];    
 }
 
 interface CoachCardState {
@@ -20,6 +21,7 @@ interface CoachCardState {
     location: string;
     type: string;
     email: string;
+    fields: string[];
 }
 export default class TrainerCard extends React.Component <CoachCardProps, CoachCardState > {
     constructor(props: CoachCardProps) {
@@ -31,6 +33,7 @@ export default class TrainerCard extends React.Component <CoachCardProps, CoachC
             photo: this.props.photo,
             location: this.props.location,
             type: this.props.type,
+            fields: this.props.fields,
             isActive: false
         };
     }
@@ -56,6 +59,7 @@ export default class TrainerCard extends React.Component <CoachCardProps, CoachC
                 >
                 
                     <p>{this.state.description}</p>
+                    <p>Especialidades: {this.state.fields}</p>
                 </Card>
                 <Modal 
                     title="Para poder consultar toda la información inicia sesión" 
