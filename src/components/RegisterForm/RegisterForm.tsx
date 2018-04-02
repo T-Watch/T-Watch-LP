@@ -14,7 +14,8 @@ import {
     // AutoComplete,
     Radio,
     DatePicker,
-    InputNumber
+    InputNumber,
+    Modal
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -54,6 +55,7 @@ interface RegisterState {
     autoCompleteResult: string[];
     close: Function;
     user: boolean;
+    isActive: boolean;
 }
 function disabledDate(current: any) {
     return current && current > moment().endOf('day');
@@ -138,11 +140,12 @@ class RegisterForm extends React.Component<FullRegisterProps,
         }
           
     }
-    /*transformDate = (value: any) => {
-        const birthDate: string = value.toString();
-        return birthDate;
-    }*/
-
+  
+    toggleModal = () => {
+        this.setState({
+            isActive: !this.state.isActive
+        });
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         // const {autoCompleteResult} = this.state;
@@ -179,6 +182,7 @@ class RegisterForm extends React.Component<FullRegisterProps,
         };
 
         return (
+            <div>
             <Form onSubmit={this.handleSubmit}>
                 <FormItem {...formItemLayout} label="Perfil">
                     {getFieldDecorator('type', {
@@ -421,6 +425,24 @@ class RegisterForm extends React.Component<FullRegisterProps,
                         ]
                     })(<Input />)}
             </FormItem>
+            <FormItem {...formItemLayout} label="Nivel de actividad">
+                    {getFieldDecorator('activityClass', {
+                        initialValue: 0,                        
+                        rules: [
+                            {
+                                message: 'Por favor, cuentanos tu experiencia.'
+                            }
+                        ]
+                    })(
+                        <div>
+                              <Icon type="question-circle-o" onClick={this.toggleModal}/>
+                    <InputNumber
+                        min={0}
+                        max={10}
+                    /> </div>
+                    
+                    )}
+            </FormItem>
 
             {/*<FormItem {...formItemLayout} label="Plan de suscripción">
                     {getFieldDecorator('plan.plan', {
@@ -496,6 +518,12 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     <Button type="primary" htmlType="submit">Register</Button>
                 </FormItem>
             </Form>
+
+                  <Modal zIndex={2} visible={this.state.isActive} onCancel={this.toggleModal} footer={null}>
+                  <img src="/public/activityClass.png" width="400"/>
+                    
+                </Modal>
+                </div>
         );
     }
 }

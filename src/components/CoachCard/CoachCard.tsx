@@ -23,7 +23,7 @@ interface CoachCardState {
     email: string;
     fields: string[];
 }
-export default class TrainerCard extends React.Component <CoachCardProps, CoachCardState > {
+export default class CoachCard extends React.Component <CoachCardProps, CoachCardState > {
     constructor(props: CoachCardProps) {
         super(props);
         this.state = {
