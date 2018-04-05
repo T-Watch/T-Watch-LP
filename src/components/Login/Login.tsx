@@ -162,6 +162,7 @@ LoginState > {
                           token(email: $email, password: $password){
                             error
                             token
+                            type
                           }
                         }`,
                     variables: args
@@ -171,18 +172,18 @@ LoginState > {
                     throw new Error(data.token.error);
               }
                 console.log(data.token.token);
+                console.log(data.token.type);
                 localStorage.setItem('token', data.token.token);
                 localStorage.setItem('email', args.email);
-                console.log('ENTRA: ' + this.props.idCoach);
+                localStorage.setItem('type', data.token.type);
                 
                 if (this.props.idCoach !== undefined) {
-                console.log('ENTRA: ' + this.props.idCoach);
                 window.location.href =
                 'http://localhost:3000/coaches?id=' + this.props.idCoach + '&token=' + data.token.token + 
                 '&email=' + args.email + '&type=USER';
                 } else {
                     window.location.href =
-                    'http://localhost:3005?token=' + data.token.token;
+                    'http://localhost:3000?email='+args.email+'&token=' + data.token.token + '&type=' + data.token.type;
                 }
             } catch (e) {
               onError(e.message);
