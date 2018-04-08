@@ -59,7 +59,7 @@ export default class CoachCard extends React.Component <CoachCardProps, CoachCar
                 >
                 
                     <p>{this.state.description}</p>
-                    <p>Especialidades: {this.state.fields}</p>
+                    <p>Especialidades: {this.state.fields.toString()}</p>
                 </Card>
                 <Modal 
                     title="Para poder consultar toda la información inicia sesión" 

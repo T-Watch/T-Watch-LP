@@ -6,12 +6,11 @@ import './RegisterForm.css';
 import {
     Form,
     Input,
-    Tooltip,
     Icon,
     Select,
     Checkbox,
     Button,
-    // AutoComplete,
+    message,
     Radio,
     DatePicker,
     InputNumber,
@@ -85,9 +84,12 @@ class RegisterForm extends React.Component<FullRegisterProps,
                     variables: { user: values }
                 })
                 .then(({ data }: any) => {
+                    message.success('Registro completado, accede a la plataforma cuando lo desees');
                     console.log('got data');
                   }).catch((error: any) => {
                     console.log('there was an error sending the query', error);
+                    message.error('Error en el registro');
+                    
                   });
                 this.state.close();
                 // console.log('Received values of form: ', values);
