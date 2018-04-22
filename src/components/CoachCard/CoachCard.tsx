@@ -69,7 +69,6 @@ export default class CoachCard extends React.Component <CoachCardProps, CoachCar
                     footer={null}
                     className="modal-login"
                 >
-                {console.log(this.props.email)}
                   <Login linkStyle={{color: '#005cb3'}} textStyle={{color: '#000000'}} idCoach={this.props.email} /> 
                 </Modal>
             </div>

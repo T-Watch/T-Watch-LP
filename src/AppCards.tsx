@@ -71,9 +71,6 @@ queryFieldsProvinceSearch = async() => {
       variables: {fields, province, search}
     });
   
-    console.log(data.coaches);
-    console.log('****');
-  
     this.setState({
       coaches: data.coaches
       });
@@ -142,10 +139,7 @@ queryProvinceSearch = async() => {
         }
       }`,
       variables: {province, search}
-    });
-  
-    console.log(data.coaches);
-  
+    });  
     this.setState({
       coaches: data.coaches
       });
@@ -155,8 +149,7 @@ queryProvinceSearch = async() => {
 }
 queryFields = async() => {
   const fields = this.state.fields;
-  console.log('****');
-  console.log(fields);
+
   try {
     const { data } = await this.props.client.query({
       query: gql`
@@ -172,9 +165,7 @@ queryFields = async() => {
     this.setState({
       coaches: data.coaches
       });
-
-    console.log(data.coaches);
-    console.log('****');  
+ 
   } catch (e) {
     console.log(e.message);
   }
@@ -226,7 +217,6 @@ querySearch = async() => {
 }
 
 onChangeRunning = (e: any) => {
-  console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
     arrayvar.push('Running');
@@ -239,7 +229,6 @@ onChangeRunning = (e: any) => {
       array.splice(index, 1);
       this.setState({fields: array });
       if (array === undefined || array.length === 0) {
-        console.log('ningun field seleccionado');
         this.handleFields(false);
       } else {
       this.handleFields(true);
@@ -248,7 +237,6 @@ onChangeRunning = (e: any) => {
 }
   
 onChangeCycling = (e: any) => {
-  console.log(`${e.target.checked}`);
   if (e.target.checked === true) {
     var arrayvar = this.state.fields;
     arrayvar.push('Cycling');
@@ -268,7 +256,6 @@ onChangeCycling = (e: any) => {
 }
 
 handleSearch = (search: any) => {
-  console.log('search ' + search);
   if ((this.state.province).length !== 0 && (this.state.fields).length !== 0) {
     this.setState({search: search},
                   () => this.queryFieldsProvinceSearch());
@@ -279,13 +266,15 @@ handleSearch = (search: any) => {
     this.setState({search: search},
                   () => this.querySearchFields()); 
   } else {
-    this.setState({search: search},
-                  () => this.querySearch()); 
+    if (search === '') {
+      this.initCoaches();
+    } else {
+        this.setState({search: search},
+                      () => this.querySearch()); }
   }
 
 }
 handleProvince = async(value: any) => {
-  console.log(`selected ${value}`);
   const province = value;
   if ((this.state.search).length !== 0 && (this.state.fields).length !== 0) {
     this.setState({province: province},
@@ -297,8 +286,13 @@ handleProvince = async(value: any) => {
     this.setState({province: province},
                   () => this.queryProvinceFields()); 
   } else {
+    if (province === 'Todos') {
+      this.initCoaches();
+  
+    } else {
     this.setState({province: province},
                   () => this.queryProvince()); 
+    }
   }
 }
 

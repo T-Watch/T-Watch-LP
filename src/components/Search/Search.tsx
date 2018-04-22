@@ -13,7 +13,6 @@ any> {
   }
 
   handleSearch = (value: any) => {  
-    console.log('onSelect', value);
     this.props.onSearchResult(value);
   }
 
