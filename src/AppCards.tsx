@@ -41,6 +41,7 @@ initCoaches = async () => {
       coaches{
         email
         name
+        lastName
         fields
       }
     }`  });
@@ -65,6 +66,7 @@ queryFieldsProvinceSearch = async() => {
         coaches(fields: $fields, province: $province, search: $search){
           email
           name
+          lastName
           fields
         }
       }`,
@@ -89,6 +91,7 @@ queryProvinceFields = async() => {
         coaches(province: $province, fields: $fields){
           email
           name
+          lastName
           fields
         }
       }`,
@@ -112,6 +115,7 @@ querySearchFields = async() => {
         coaches(search: $search, fields: $fields){
           email
           name
+          lastName
           fields
         }
       }`,
@@ -135,6 +139,7 @@ queryProvinceSearch = async() => {
         coaches(province: $province, search: $search){
           email
           name
+          lastName
           fields
         }
       }`,
@@ -157,6 +162,7 @@ queryFields = async() => {
         coaches(fields: $fields){
           email
           name 
+          lastName
           fields
         }
       }`,
@@ -180,6 +186,7 @@ queryProvince = async() => {
         coaches(province: $province){
           email
           name
+          lastName
           fields
         }
       }`,
@@ -203,6 +210,7 @@ querySearch = async() => {
         coaches(search: $search){
           email
           name
+          lastName
           fields
         }
       }`,

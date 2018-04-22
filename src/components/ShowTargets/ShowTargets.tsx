@@ -34,7 +34,7 @@ targets = () => {
      <ul style={{ background: '#fff', padding: 24, minHeight: 280 }}>
      {this.props.coaches.map(function(coach: any, i: any) {
        return   <ul key={coach.email}>
-       <CoachCard name={coach.name} description={coach.email} email={coach.email} fields={coach.fields}/>
+       <CoachCard name={coach.name} lastName={coach.lastName} description={coach.email} email={coach.email} fields={coach.fields}/>
      </ul>;
      })}
    </ul>

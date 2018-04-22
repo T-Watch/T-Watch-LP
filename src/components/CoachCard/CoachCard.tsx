@@ -5,6 +5,7 @@ import Login from '../Login/Login';
 
 interface CoachCardProps {
     name: string;
+    lastName: string;
     description: string;
     photo: string;
     location: string;
@@ -15,6 +16,7 @@ interface CoachCardProps {
 
 interface CoachCardState {
     name: string;
+    lastName: string;
     description: string;
     photo: string;
     isActive: boolean;
@@ -29,6 +31,7 @@ export default class CoachCard extends React.Component <CoachCardProps, CoachCar
         this.state = {
             email: this.props.email,
             name: this.props.name,
+            lastName: this.props.lastName,
             description: this.props.description,
             photo: this.props.photo,
             location: this.props.location,
@@ -46,7 +49,7 @@ export default class CoachCard extends React.Component <CoachCardProps, CoachCar
         return (
             <div className="card">
                 <Card 
-                    title={this.state.name} 
+                    title={this.state.name + ' ' + this.state.lastName} 
                     style={{ width: 300 }} 
                     extra={<span  
                             style={{
